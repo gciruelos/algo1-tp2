@@ -2,27 +2,32 @@
 #include "imagen.h"
 #include "galeria_imagenes.h"
 
+
+//#include "test.h"
+
 #include <algorithm>
 
 /*TEST*/
-void printVect(vector<Pixel> pixs){
-    for(int i = 0; i<pixs.size(); i++){
-        Pixel p = pixs[i];
-        cout << "(" << p.red() << "," << p.green() << "," << p.blue() << ") " << flush;
-    }
-    cout << endl;
-}
-void prntImg(Imagen im){
-    for(int i = 0; i<im.alto(); i++){
-        for(int j = 0; j<im.ancho(); j++){
-            Pixel p =  im.obtenerPixel(i, j);  
-            cout << "(" << p.red() << "," << p.green() << "," << p.blue() << ") " <<"\t" <<flush;
-            
-        }
-        cout << endl;
-    }
-}
+void outImagen(Imagen im){
+	cout << im.alto() << " ";
+	cout << im.ancho() << " ";
 
+	int i = 0;
+	cout << "[";
+	while(i<im.alto()){
+		int j = 0;
+	    while(j<im.ancho()){
+			Pixel p = im.obtenerPixel(i, j);
+			cout << "(" << p.red() << ";" << p.green() << ";" << p.blue()  << ")";
+			
+			if(j!=im.ancho()-1 || i!=im.alto()-1) cout << ",";
+
+			j++;
+		}
+		i++;
+	}
+	cout << "]";
+}
 /*FIN TEST*/
 
 
@@ -210,7 +215,26 @@ void Imagen::acuarela(int k){
 
 
 //GALERIA
-vector<Imagen> dividir (Imagen img, int n, int m){
+
+void GaleriaImagenes::agregarImagen(const Imagen &imagen){
+    vector<Imagen> imagenes_nuevas;
+    vector<int> votos_nuevos;
+
+	imagenes_nuevas.push_back(imagen);
+	votos_nuevos.push_back(0);
+
+	int i = 0;
+	while(i < imagenes.size()){
+		imagenes_nuevas.push_back(imagenes[i]);
+		votos_nuevos.push_back(votos[i]);
+
+		i++;
+	}
+}
+
+
+
+vector<Imagen> dividir (const Imagen &img, int n, int m){
 	vector<Imagen> resultado;
 
     int cols  = img.ancho() / n;
@@ -246,47 +270,30 @@ vector<Imagen> dividir (Imagen img, int n, int m){
             
 
 
-//void dividirYAgregar(const Imagen &imagen, int n, int m){
+void GaleriaImagenes::dividirYAgregar(const Imagen &imagen, int n, int m){
+	int alto = imagen.alto();
+	int ancho = imagen.ancho();
 
-
-
-
-bool test(){
-    Pixel gris(128,128,128);
-    Pixel azul(0,0,255);
-    Pixel negro(0,0,0);
-
-    Imagen prueba(10, 6);
-    for(int i = 0; i<prueba.alto(); i++){
-        for(int j = 0; j<prueba.ancho(); j++){
-            if ((i-j)%4 == 0) prueba.modificarPixel(i, j, gris);
-            if ((i-j)%4 == 1) prueba.modificarPixel(i, j, azul);
-            if ((i-j)%4 == 2) prueba.modificarPixel(i, j, negro);
-        }
-    }
-    cout << "PRUEBA" << endl;
-    prntImg(prueba);
-    /*
-    prueba.blur(2);
-    cout << "BLUR" <<endl;
-    prntImg(prueba);
-
-    prueba.acuarela(2);
-    cout << "ACUARELA" <<endl;
-    prntImg(prueba);
-    */
-	cout << endl;
-
-	vector<Imagen> res = dividir(prueba, 2, 2);
-    for(int i = 0; i<res.size(); i++){
-		prntImg(res[i]);cout << endl;
+	if (alto%m==0 && ancho%n==0){
+		vector<Imagen> dividida = dividir(imagen, n, m);
+       
+	    int i = 0;
+		while(i<dividida.size()){
+			this->agregarImagen(dividida[i]);
+		}
+	}
+}
+		
+int main(){
+	bool salir = false;
+	while(!salir){
+		cout << "¿Que desea hacer?" << endl;
+		salir = true;
 	}
 
 
-    return true;
-}
-int main(){
-    test(); 
+
+
     return 0;
 }
 
