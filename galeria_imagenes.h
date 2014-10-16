@@ -21,5 +21,6 @@ class GaleriaImagenes {
   std::vector<int> votos;
 };
 
+
 #endif  // GALERIA_IMAGENES_H
 

@@ -1,7 +1,7 @@
-#include tp2.cpp
+#include "pixel.h"
+#include "imagen.h"
+#include "galeria_imagenes.h"
 
-
-/*TEST*/
 void printVect(vector<Pixel> pixs){
     for(int i = 0; i<pixs.size(); i++){
         Pixel p = pixs[i];
@@ -20,8 +20,28 @@ void prntImg(Imagen im){
     }   
 }
 
+void outImagen(Imagen im){
+	cout << im.alto() << " ";
+	cout << im.ancho() << " ";
 
-bool test(){
+	int i = 0;
+	cout << "[";
+	while(i<im.alto()){
+		int j = 0;
+	    while(j<im.ancho()){
+			Pixel p = im.obtenerPixel(i, j);
+			cout << "(" << p.red() << ";" << p.green() << ";" << p.blue()  << ")";
+			
+			if(j!=im.ancho()-1 || i!=im.alto()-1) cout << ",";
+
+			j++;
+		}
+		i++;
+	}
+	cout << "]"<<endl;
+}
+
+int main(){
     Pixel gris(128,128,128);
     Pixel azul(0,0,255);
     Pixel negro(0,0,0);
@@ -36,7 +56,7 @@ bool test(){
     }
     cout << "PRUEBA" << endl;
     outImagen(prueba);
-    /*
+  
     prueba.blur(2);
     cout << "BLUR" <<endl;
     prntImg(prueba);
@@ -44,15 +64,14 @@ bool test(){
     prueba.acuarela(2);
     cout << "ACUARELA" <<endl;
     prntImg(prueba);
-    */
+  
     cout << endl;
 
-    vector<Imagen> res = dividir(prueba, 2, 2);
+    /*vector<Imagen> res = dividir(prueba, 2, 2);
     for(int i = 0; i<res.size(); i++){
         outImagen(res[i]);cout << endl;
-    }
-
-
-    return true;
+    }*/
+    
+    return 0;
 }
 
