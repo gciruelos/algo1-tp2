@@ -148,3 +148,61 @@ void Imagen::acuarela(int k){
     }
     pixels = nuevo_pixels;
 }
+
+
+
+vector<pair<int,int> > Imagen::posicionesMasOscuras() const{
+    int colorMasOscuro = 255*3;
+
+    vector<pair<int, int> > resultado;
+
+    int i = 0, j;
+    while (i<alto()){
+        j = 0;
+        while (j<ancho()){
+            Pixel estePixel = pixels[i][j];
+            int colorPixel = estePixel.red()+estePixel.green()+estePixel.blue();
+
+            if (colorPixel<colorMasOscuro) colorMasOscuro = colorPixel;
+        }
+    }
+
+
+    i = 0;
+    while (i<alto()){
+        j = 0;
+        while (j<ancho()){
+            Pixel estePixel = pixels[i][j];
+            int colorPixel = estePixel.red()+estePixel.green()+estePixel.blue();
+
+            if (colorPixel<colorMasOscuro) resultado.push_back(make_pair(i, j));
+        }
+    }
+
+
+
+    return resultado;
+}
+    
+
+bool Imagen::operator==(const Imagen &otra) const{
+    bool resultado = true;
+
+    if(alto() != otra.alto() || ancho() != otra.ancho())
+        resultado = false;
+    else{
+        int i = 0, j;
+        while (i<alto()){
+            j = 0;
+            while (j<ancho()){
+                Pixel p1 = pixels[i][j];
+                Pixel p2 = otra.obtenerPixel(i,j);
+                if (p1.red() != p2.red() || p1.green() != p2.green() || p1.blue() != p2.blue()) resultado = false;
+            }
+        }
+    }
+    
+    return resultado;
+}
+
+

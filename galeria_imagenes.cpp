@@ -16,6 +16,23 @@ void GaleriaImagenes::agregarImagen(const Imagen &imagen){
 	}
 }
 
+void GaleriaImagenes::votar(const Imagen &imagen){
+    int i = 0;
+    while (i<imagenes.size()){
+        if (imagenes[i] == imagen){
+            votos[i]++;
+        }
+    }
+}
+
+void GaleriaImagenes::eliminarMasVotada(){
+    if(imagenes.size()>0){
+        imagenes.pop_back();
+        votos.pop_back();
+    }
+}
+
+
 vector<Imagen> dividir (const Imagen &img, int n, int m){
 	vector<Imagen> resultado;
 
