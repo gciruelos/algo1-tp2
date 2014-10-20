@@ -164,6 +164,7 @@ void GaleriaImagenes::dividirYAgregar(const Imagen &imagen, int n, int m){
 }
 
 void GaleriaImagenes::guardar(std::ostream& os) const{
+	os << imagenes.size() << endl;
 	int i = 0;
 	while(i<imagenes.size()){
 		imagenes[i].guardar(os); os << endl;
