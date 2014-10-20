@@ -1,5 +1,48 @@
 #include "galeria_imagenes.h"
 
+
+Imagen GaleriaImagenes::laMasChiquitaConPuntoBlanco () const{
+	vector<Imagen> imagenes_blancas;
+	vector<int> tamanio_imagenes;
+
+	int k = 0;
+	while (k<imagenes.size()){
+		int n = imagenes[k].alto();
+		int m = imagenes[k].ancho();
+		int i = 0, j;
+			while (i<n){
+				j = 0;
+				while (j<m){
+					Pixel este_pixel = imagenes[k].obtenerPixel(i,j);
+					if (este_pixel.red() == 255 && este_pixel.blue() == 255 && este_pixel.green() == 255){
+						imagenes_blancas.push_back(imagenes[k]);
+						tamanio_imagenes.push_back(m*n);
+						j = m;  // para que termine el ciclo
+						i = n;  // porque ya encontramos el pixel
+					}
+					j++;
+				
+				}
+				i++;
+			}
+		k++;
+	}
+
+    int mas_chica = tamanio_imagenes[0];
+    int i_mas_chica = 0;
+    int i = 1;
+    while(i<imagenes_blancas.size()){
+		if(tamanio_imagenes[i] < mas_chica){
+			i_mas_chica = i;
+			mas_chica = tamanio_imagenes[i];
+		}
+		i++;
+	}
+	return imagenes_blancas[i_mas_chica];
+
+}
+
+
 void GaleriaImagenes::agregarImagen(const Imagen &imagen){
     vector<Imagen> imagenes_nuevas;
     vector<int> votos_nuevos;
@@ -18,11 +61,37 @@ void GaleriaImagenes::agregarImagen(const Imagen &imagen){
 
 void GaleriaImagenes::votar(const Imagen &imagen){
     int i = 0;
-    while (i<imagenes.size()){
-        if (imagenes[i] == imagen){
-            votos[i]++;
-        }
+    std::vector<Imagen> imagenes_nuevas;
+    std::vector<int> votos_nuevos;
+
+    int votos_imagen;
+    while (i<imagenes.size() && !(imagenes[i]==imagen)){
+        imagenes_nuevas.push_back(imagenes[i]);
+        votos_nuevos.push_back(votos[i]);
+      
+        i++;
     }
+    votos_imagen = votos[i];
+    i++;
+    // requerimos que la imagen este, entonces en este estado i<imagenes.size() e imagenes[i]==imagen
+    while (votos[i]==votos_imagen && i<imagenes.size()){
+		imagenes_nuevas.push_back(imagenes[i]);
+		votos_nuevos.push_back(votos[i]);
+
+		i++;
+	}
+	imagenes_nuevas.push_back(imagen);
+	votos_nuevos.push_back(votos_imagen+1);
+
+    while (votos[i]==votos_imagen && i<imagenes.size()){
+		imagenes_nuevas.push_back(imagenes[i]);
+		votos_nuevos.push_back(votos[i]);
+
+		i++;
+	}
+
+	imagenes = imagenes_nuevas;
+	votos = votos_nuevos;
 }
 
 void GaleriaImagenes::eliminarMasVotada(){
@@ -30,6 +99,17 @@ void GaleriaImagenes::eliminarMasVotada(){
         imagenes.pop_back();
         votos.pop_back();
     }
+}
+
+
+vector<Imagen> GaleriaImagenes::top10 () const{
+	int i = 0;
+	vector <Imagen> result;
+	while (i<10 && imagenes.size()-i-1<imagenes.size()){
+		result.push_back(imagenes[imagenes.size()-i-1]);
+		i++;
+	}
+	return result;
 }
 
 
