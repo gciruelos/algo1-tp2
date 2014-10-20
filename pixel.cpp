@@ -31,3 +31,22 @@ int Pixel::green() const{
 int Pixel::blue() const{
     return intensidades[2];
 }
+
+void Pixel::guardar(std::ostream& os) const{
+	os << "(" <<intensidades[0] << ";" << intensidades[1] << ";"<< intensidades[2]<<")";
+}
+
+void Pixel::cargar(std::istream& is){
+	char parentesis, puntoYComaOParentesis;
+	is >> parentesis;
+	
+	int colores = 0;
+	while(colores <3){
+	    int este_color;
+	    is >> este_color;
+	    intensidades[colores] = este_color;
+
+            is >> puntoYComaOParentesis;
+            colores++;
+	}
+}

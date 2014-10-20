@@ -42,7 +42,7 @@ void outImagen(Imagen im){
 }
 
 int main(){
-    Pixel gris(128,128,128);
+    /*Pixel gris(128,128,128);
     Pixel azul(0,0,255);
     Pixel negro(0,0,0);
 
@@ -66,12 +66,15 @@ int main(){
     prntImg(prueba);
   
     cout << endl;
-
+    */
     /*vector<Imagen> res = dividir(prueba, 2, 2);
     for(int i = 0; i<res.size(); i++){
         outImagen(res[i]);cout << endl;
     }*/
-    
+  
+    Imagen prueba(1,1);
+    prueba.cargar(cin);  
+    prueba.guardar(cout); cout << endl; 
     return 0;
 }
 

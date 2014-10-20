@@ -1,5 +1,5 @@
 tp2: main.o pixel.o imagen.o galeria_imagenes.o
-	g++ -o tp2 main.o pixel.o imagen.o galeria_imagenes.o
+	g++ -Wall -Wextra -o tp2 main.o pixel.o imagen.o galeria_imagenes.o
 
 main.o : main.cpp pixel.h imagen.h galeria_imagenes.h
 	g++ -c main.cpp

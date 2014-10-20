@@ -205,4 +205,51 @@ bool Imagen::operator==(const Imagen &otra) const{
     return resultado;
 }
 
+void Imagen::guardar(std::ostream& os) const{
+	os << alto() << " " << ancho() << " ";
+	int i = 0;
+	os << "[";
+	while (i<alto()){
+		int j = 0;
+		while (j<ancho()){
+			if(i!=0 || j!=0) os << ",";
+			pixels[i][j].guardar(os);
+
+			j++;
+		}
+		i++;
+	}
+	os << "]";
+}
+
+void Imagen::cargar(std::istream& is){
+	int alto, ancho;
+	is >> alto;
+	is >> ancho;
+ 	
+	char charMolesto; is >> charMolesto; //corchete o coma
+
+	vector<vector<Pixel> > nueva_imagen;
+
+	int i = 0, j;
+
+	while(i<alto){
+		j = 0;
+		vector<Pixel> fila;
+		while(j<ancho){
+			Pixel este_pixel(0,0,0);
+			este_pixel.cargar(is);
+
+            is >> charMolesto;
+
+			fila.push_back(este_pixel);
+			j++;
+		}
+
+        nueva_imagen.push_back(fila);
+		i++;
+	}
+	
+	pixels = nueva_imagen;
+}
 

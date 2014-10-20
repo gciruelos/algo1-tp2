@@ -162,3 +162,23 @@ void GaleriaImagenes::dividirYAgregar(const Imagen &imagen, int n, int m){
 		}
 	}
 }
+
+void GaleriaImagenes::guardar(std::ostream& os) const{
+	int i = 0;
+	while(i<imagenes.size()){
+		imagenes[i].guardar(os); os << endl;
+	}
+}
+
+void GaleriaImagenes::cargar(std::istream& is){
+	Imagen im(1,1);
+	while(1){
+		im.cargar(is);
+
+		imagenes.push_back(im);
+		votos.push_back(0);
+	}
+}
+
+
+
