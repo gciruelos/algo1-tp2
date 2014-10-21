@@ -1,4 +1,4 @@
-include "galeria_imagenes.h"
+#include "galeria_imagenes.h"
 
 
 Imagen GaleriaImagenes::laMasChiquitaConPuntoBlanco () const{
@@ -174,17 +174,22 @@ void GaleriaImagenes::guardar(std::ostream& os) const{
 void GaleriaImagenes::cargar(std::istream& is){
 	Imagen im(1,1);
 
+    vector<Imagen> imagenes_nuevas;
+    vector<int> votos_nuevos;
+
     int cantidad_imagenes;
-	is >> cantidad_imagenes
+	is >> cantidad_imagenes;
 	int i = 0;
 	while(i<cantidad_imagenes){
 		im.cargar(is);
 
-		imagenes.push_back(im);
-		votos.push_back(0);
+		imagenes_nuevas.push_back(im);
+		votos_nuevos.push_back(0);
 
 		i++;
 	}
+    imagenes = imagenes_nuevas;
+    votos = votos_nuevos;
 }
 
 

@@ -14,4 +14,4 @@ galeria_imagenes.o : galeria_imagenes.cpp galeria_imagenes.h
 	g++ -c galeria_imagenes.cpp
 
 clean :
-	rm main.o pixel.o imagen.o galeria_imagenes.o
+	rm main.o pixel.o imagen.o galeria_imagenes.o tp2
