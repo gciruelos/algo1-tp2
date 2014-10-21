@@ -31,17 +31,24 @@ int Imagen::ancho() const{
 int abs(int x){
     return x > 0 ? x : -x;
 }
+int max(int a, int b){
+    return a > b ? a : b;
+}
+int min(int a, int b){
+    return a > b ? b : a;
+}
 
 vector<Pixel> kVecinos(Pixel2DContainer pixels, int pixel_i, int pixel_j, int k){
     int alto = pixels.size();
     int ancho = pixels[0].size();
     
     vector<Pixel> resultado;
-    int i = 0, j;
-    while(i<alto){
-        j = 0;
-        while(j<ancho){
-            if(abs(pixel_i-i)<k && abs(pixel_j-j)<k)
+    int i = max(0, pixel_i-k+1);
+    while(i<min(alto, pixel_i+k)){
+        int j = max(0, pixel_j-k+1);
+        while(j<min(ancho, pixel_j+k)){
+
+            //if(abs(pixel_i-i)<k && abs(pixel_j-j)<k)
                 resultado.push_back(pixels[i][j]);
             j++;
         }
@@ -81,20 +88,23 @@ void Imagen::blur(int k){
         nuevo_pixels.push_back(filaNegra);
         iter++;
     }
-  
+
+    int kVecCompletos = (2*k-1)*(2*k-1);
     while (i<alto()){
         j = 0;
         while (j<ancho()){
             vector<Pixel> kVec = kVecinos(pixels, i, j, k); 
 
-            if(kVec.size() == (2*k-1)*(2*k-1))
+            if(kVec.size() == kVecCompletos)
                 nuevo_pixels[i][j] = promedio(kVec);
             else nuevo_pixels[i][j] = pixel_negro;
             
             j++;
         }
+  
         i++;
-    }
+    } 
+
     pixels = nuevo_pixels;
 }
 
