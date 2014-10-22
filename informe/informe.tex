@@ -1,0 +1,133 @@
+% Clase y configuracion de tipo de documento
+\documentclass[10pt,a4paper,spanish]{article}
+% Inclusion de paquetes
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[width=15.5cm, left=3cm, top=2.5cm, right=1cm, left=2cm, height= 24.5cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{xspace}
+\usepackage{longtable}
+\usepackage{caratula}
+\usepackage{mathtools}
+% incluye macros espec materia
+%\include{algo1-cmds}
+
+% Encabezado
+\lhead{Algoritmos y Estructuras de Datos I}
+\rhead{Grupo 1}
+% Pie de pagina
+\renewcommand{\footrulewidth}{0.4pt}
+\lfoot{Facultad de Ciencias Exactas y Naturales}
+\rfoot{Universidad de Buenos Aires}
+
+
+\newcommand{\tab}{\-\hspace{0.5cm}}
+\newcommand{\enter}{$\\[6pt]$}
+\newcommand{\requiere}[2] {\tab\textbf{requiere #1}: $#2$;\\[6pt]}
+\newcommand{\asegura}[2] {\tab\textbf{asegura #1}: $#2$;\\[6pt]}
+\newcommand{\modifica}[1] {\tab\textbf{modifica}: $#1$;\\[6pt]}
+\newcommand{\aux}[1] {\textbf{aux #1}}
+
+
+\begin{document}
+
+% Datos de caratula
+\materia{Algoritmos y Estructuras de Datos I}
+\titulo{Trabajo Pr\'actico N\'umero 1}
+%\subtitulo{}
+\grupo{Grupo: 1}
+
+\integrante{Ciruelos Rodr\'{i}guez, Gonzalo}{063/14}{gciruelos@dc.uba.ar}
+\integrante{Gatti, Mathias}{477/14}{mathigatti@gmail.com}
+\integrante{Rabinowicz, Luc\'{i}a}{105/14}{lu.rabinowicz@gmail.com}
+\integrante{Weber, Andres}{923/13}{herr.andyweber@gmail.com}
+
+\maketitle
+
+% Para crear un indice
+%\tableofcontents
+
+% Forzar salto de pagina
+\clearpage
+
+% Pueden modularizar el documento incluyendo otros .tex
+% \include{observaciones}
+
+\section{Observaciones}
+
+	\begin{enumerate}
+		\item a
+	\end{enumerate}
+
+% Otro salto de pagina
+% \newpage
+
+\section{Especificación}
+
+\subsection{posicionesMasOscuras}
+\enter \textbf{problema posicionesMasOscuras} ($i:Imagen$) = $result : [\langle\mathbb{Z},\mathbb{Z}\rangle]$ \{\enter
+\asegura{}{mismos (result, [(x,y)| x \leftarrow [0..ancho(i)), y \leftarrow [0..alto (i)), sumaColor (color (i,x,y))==colorMinimo (i)])}
+\tab\aux{sumaColor}(p:Pixel):$\mathbb{Z}$ = red(p)+green(p)+blue(p);\\
+\tab\aux{colorMinimo}(i:Imagen):$\mathbb{Z}$ = $min([sumaColor(color(i,x,y))|x\leftarrow [0..ancho(i)),i\leftarrow [0..alto(i))])$; \\
+\tab\aux{min} $(l:[\mathbb{Z}]):\mathbb{Z} =[l_i|(\forall i,j \leftarrow [0..|l|)) l_i \leq l_j]_0$;\\
+\}
+
+\subsection{top10}
+\enter \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
+\asegura{}{0 \leq |Result| \leq 10}
+\asegura{}{ if\  |imagenes(g)| \leq 10 \ then\ mismos(result, imagenes(g)) \ else\ (\forall i \leftarrow sacar(imagenes(g),result))(j\leftarrow result),votos(g,i) \leq votos(g,j)}
+\asegura{}{estaOrdenadaDecreciente([votos(g,result_i)|i\leftarrow[0..|result|)])}
+\tab\aux{sacar} $(L:[T],A:[T]):[T]$ = $[l|(l\leftarrow L),(\forall a \leftarrow A), l \neq a]$\\
+\tab\aux{estaOrdenadaDecreciente}$(l:[\mathbb{Z}]): Bool$ = $(\forall i,j \leftarrow [0..|l|), i\geq j),l_j \geq l_i$\\
+\}
+
+\subsection{laMasChiquitaConPuntoBlanco}
+\enter \textbf{problema laMasChiquitaConPuntoBlanco} $(g:Galeria)$= $result:Imagen$ \{\enter
+\requiere{existeImagenConPuntoBlanco}{(\exists h \leftarrow imagenes(g)) tieneBlanco (h)}
+\asegura{}{tieneBlanco(result)}
+\asegura{}{ancho(Result)*alto(Result) \leq ancho(j)*alto(j) (\forall j \leftarrow imagenesConBlanco(g))}
+\tab\aux{imagenesConBlanco} $(g:Galeria):[Imagen]$=$[H|H \leftarrow imagenes (g), tieneBlanco (H)]$\\
+\tab\aux{tieneBlanco}$(i:Imagen):Bool$=$(\exists x \leftarrow [0..ancho(i)),y \leftarrow [0..alto(i))) sumaColor (color(i,x,y))==765$\\
+\tab\aux{sumaColor}$(p:Pixel): \mathbb{Z}$ = $red(p)+green(p)+blue(p)$\\
+\}
+
+\subsection{agregarImagen}
+\enter \textbf{problema agergarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
+\requiere{}{i\notin imagenes(g)}
+\modifica{g}
+\asegura{}{mismos (imagenes(g),imagenes(pre(g))++[i])}
+\asegura{}{votos(g,i)==0}
+\asegura{}{(\forall h \leftarrow imagenes(g), j \leftarrow imagenes (pre(g)), h==j) votos(g,h) == votos(pre(g)), j)}
+\}
+
+\subsection{votar}
+\enter \textbf{problema votar} $(g:Galeria,i:Imagen)$ \{ \enter
+\requiere{}{i\in imagenes(g)}
+\modifica{g}
+\asegura{}{mismos(imagenes(g),imagenes(pre(g)))}
+\asegura{}{(\forall h \leftarrow imagenes(g),j \leftarrow imagenes(pre(g)), h==j , h\neq i) votos(g,h)==votos(pre(g),j)}
+\asegura{}{votos(g,i)==votos(pre(g),i)+1}
+\}
+
+\subsection{eliminarMasVotada}
+\enter \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
+\requiere{}{|imagenes(g)| \neq 0}
+\modifica{g}
+\asegura{}{|imagenes (pre(g))| == |imagenes(g)|+1}
+\asegura{}{(\exists h \in imagenes(pre(g))) (\forall j \leftarrow imagenes(g)), h\notin imagenes(g))votos(pre(g),h) \geq votos(g,j)}
+\asegura{}{(\forall j \leftarrow imagenes(pre(g)), not(esMasVotada(pre(g),j))), j \in imagenes(g)}
+\asegura{}{(\forall i \leftarrow imagenes(g) not(esMasVotada(pre(g),i)) votos(g,i)==votos(pre(g),i)}
+\asegura{}{(\forall i \leftarrow imagenes(g), esMasVotada(i)) votos(g,i)==votos(pre(g),i)}
+\tab\aux{esMasVotada} $(g:Galeria,i:Imagen):Bool$ = $(\forall j \leftarrow imagenes(g)) votos(g,i) \geq votos(g,j)$\\
+\}
+\end{document}
+% \subsection{Ejercicio X}
+        
+\end{document}
+
+
