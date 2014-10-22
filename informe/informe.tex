@@ -14,6 +14,8 @@
 \usepackage{longtable}
 \usepackage{caratula}
 \usepackage{mathtools}
+\usepackage{caption}
+\usepackage{listings}
 % incluye macros espec materia
 %\include{algo1-cmds}
 
@@ -34,17 +36,22 @@
 \newcommand{\aux}[1] {\textbf{aux #1}}
 
 
+\renewcommand\lstlistingname{Código fuente}
+\renewcommand\lstlistlistingname{Códigos fuente}
+
+
+
 \begin{document}
 
 % Datos de caratula
 \materia{Algoritmos y Estructuras de Datos I}
-\titulo{Trabajo Pr\'actico N\'umero 1}
+\titulo{Trabajo Práctico Número 2}
 %\subtitulo{}
 \grupo{Grupo: 1}
 
-\integrante{Ciruelos Rodr\'{i}guez, Gonzalo}{063/14}{gciruelos@dc.uba.ar}
+\integrante{Ciruelos Rodríguez, Gonzalo}{063/14}{gciruelos@dc.uba.ar}
 \integrante{Gatti, Mathias}{477/14}{mathigatti@gmail.com}
-\integrante{Rabinowicz, Luc\'{i}a}{105/14}{lu.rabinowicz@gmail.com}
+\integrante{Rabinowicz, Lucía}{105/14}{lu.rabinowicz@gmail.com}
 \integrante{Weber, Andres}{923/13}{herr.andyweber@gmail.com}
 
 \maketitle
@@ -125,9 +132,24 @@
 \asegura{}{(\forall i \leftarrow imagenes(g), esMasVotada(i)) votos(g,i)==votos(pre(g),i)}
 \tab\aux{esMasVotada} $(g:Galeria,i:Imagen):Bool$ = $(\forall j \leftarrow imagenes(g)) votos(g,i) \geq votos(g,j)$\\
 \}
-\end{document}
-% \subsection{Ejercicio X}
-        
+
+\section{Implementacion}
+\lstset{language=C++,
+        basicstyle=\ttfamily\footnotesize,
+        showstringspaces=false,
+        numbers=left,
+        numberstyle=\scriptsize,
+        %keywordstyle=\color{blue}
+        %xleftmargin=\leftmargin
+}
+\lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
+%\lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
+%\lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
+%\lstinputlisting[caption=main.cpp]{../src/main.cpp}
+
+\section{Demostraciones}
+
+
 \end{document}
 
 

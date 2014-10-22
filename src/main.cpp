@@ -27,7 +27,7 @@ int main() {
         cout << "| 10. eliminar mas votada              |" << endl;
         cout << "| 11. guardar galeria                  |" << endl;
         cout << "|______________________________________|" << endl;
-        cout << "¿Que desea hacer? ";
+        cout << "Que desea hacer? ";
         cin >> input;
         cout << endl;
         if (input == "1") {
