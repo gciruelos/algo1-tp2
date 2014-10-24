@@ -1,5 +1,21 @@
 #include "imagen.h"
-#include <algorithm>
+
+void sort(vector<int> &v) {
+    //algoritmo de burbujeo
+    int i = 0;
+    while(i < v.size()) {
+        int j = i;
+        while(j < v.size() - 1) {
+            if (v[j] > v[j + 1]) {
+                int temp = v[j];
+                v[j] = v[j + 1];
+                v[j + 1] = temp;
+            }
+            j++;
+        }
+        i++;
+    }
+}
 
 Imagen::Imagen(int alto_param, int ancho_param) {
     Pixel negro(0, 0, 0);
@@ -28,9 +44,6 @@ int Imagen::ancho() const {
     return pixels[0].size();
 }
 
-int abs(int x) {
-    return x > 0 ? x : -x;
-}
 int max(int a, int b) {
     return a > b ? a : b;
 }
@@ -47,8 +60,6 @@ vector<Pixel> kVecinos(Pixel2DContainer pixels, int pixel_i, int pixel_j, int k)
     while(i < min(alto, pixel_i + k)) {
         int j = max(0, pixel_j - k + 1);
         while(j < min(ancho, pixel_j + k)) {
-
-            //if(abs(pixel_i-i)<k && abs(pixel_j-j)<k)
             resultado.push_back(pixels[i][j]);
             j++;
         }
@@ -121,9 +132,9 @@ Pixel mediana(vector<Pixel> pixels) {
         i++;
     }
 
-    sort(reds.begin(), reds.end());
-    sort(greens.begin(), greens.end());
-    sort(blues.begin(), blues.end());
+    sort(reds);
+    sort(greens);
+    sort(blues);
 
     Pixel resultado(reds[cantidad / 2], greens[cantidad / 2], blues[cantidad / 2]);
     return resultado;
