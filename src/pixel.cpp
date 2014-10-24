@@ -37,8 +37,8 @@ void Pixel::guardar(std::ostream& os) const {
 }
 
 void Pixel::cargar(std::istream& is) {
-    char parentesis, puntoYComaOParentesis;
-    is >> parentesis;
+    char charMolesto; //punto y coma o parentesis
+    is >> charMolesto;
 
     int colores = 0;
     while(colores < 3) {
@@ -46,7 +46,7 @@ void Pixel::cargar(std::istream& is) {
         is >> este_color;
         intensidades[colores] = este_color;
 
-        is >> puntoYComaOParentesis;
+        is >> charMolesto;
         colores++;
     }
 }

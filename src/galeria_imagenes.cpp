@@ -164,30 +164,40 @@ void GaleriaImagenes::dividirYAgregar(const Imagen &imagen, int n, int m) {
 }
 
 void GaleriaImagenes::guardar(std::ostream& os) const {
-    os << imagenes.size() << endl;
+    os << "[";
+
     int i = 0;
     while(i < imagenes.size()) {
+        if (i!=0) os << ",";
+        os << "(";
         imagenes[i].guardar(os);
-        os << endl;
+        os << "," << votos[i] << ")";
     }
+    os << "]" << endl;
 }
 
 void GaleriaImagenes::cargar(std::istream& is) {
     Imagen im(1, 1);
+    int numero_de_votos;
 
     vector<Imagen> imagenes_nuevas;
     vector<int> votos_nuevos;
 
-    int cantidad_imagenes;
-    is >> cantidad_imagenes;
-    int i = 0;
-    while(i < cantidad_imagenes) {
+    char charMolesto; // parentesis, coma o chorchete
+    is >> charMolesto; // '['
+
+    while(charMolesto != ']') {
+        is >> charMolesto; // '('
         im.cargar(is);
 
-        imagenes_nuevas.push_back(im);
-        votos_nuevos.push_back(0);
+        is >> charMolesto; // ','
+        is >> numero_de_votos;
+        is >> charMolesto; // ')'
 
-        i++;
+        imagenes_nuevas.push_back(im);
+        votos_nuevos.push_back(numero_de_votos);
+
+        is >> charMolesto; // ',' o ']' y se termina el ciclo
     }
     imagenes = imagenes_nuevas;
     votos = votos_nuevos;
