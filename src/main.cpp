@@ -44,9 +44,7 @@ int main() {
             Imagen im(1, 1);
             im.cargar(ifs);
 
-            cerr << "Cargo imagen" << endl;
             im.blur(k);
-            cerr << "Hizo blur" << endl;
 
             im.guardar(ofs);
         }
@@ -64,7 +62,7 @@ int main() {
             Imagen im(1, 1);
             im.cargar(ifs);
 
-            im.blur(k);
+            im.acuarela(k);
 
             im.guardar(ofs);
         }
@@ -100,6 +98,7 @@ int main() {
             string archivo_in;
 
             cout << "Ingrese el nombre del archivo de la imagen" << endl;
+            cin >> archivo_in;
 
             ifstream ifs(archivo_in.c_str());
 
@@ -119,6 +118,7 @@ int main() {
             string archivo_out;
 
             cout << "Ingrese el nombre del archivo para el output" << endl;
+            cin >> archivo_out;
 
             ofstream ofs(archivo_out.c_str());
 
@@ -129,13 +129,16 @@ int main() {
             while(i < top.size()) {
                 if (i != 0) ofs << ",";
                 top[i].guardar(ofs);
+
+                i++;
             }
-            ofs << "]";
+            ofs << "]" << endl;
         }
         else if(input == "7") {
             string archivo_out;
 
             cout << "Ingrese el nombre del archivo para el output" << endl;
+            cin >> archivo_out;
 
             ofstream ofs(archivo_out.c_str());
 
@@ -146,6 +149,7 @@ int main() {
             string archivo_in;
 
             cout << "Ingrese el nombre del archivo de la imagen" << endl;
+            cin >> archivo_in;
 
             ifstream ifs(archivo_in.c_str());
 
@@ -158,6 +162,7 @@ int main() {
             string archivo_in;
 
             cout << "Ingrese el nombre del archivo de la imagen" << endl;
+            cin >> archivo_in;
 
             ifstream ifs(archivo_in.c_str());
 

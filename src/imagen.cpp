@@ -176,30 +176,33 @@ vector<pair<int, int> > Imagen::posicionesMasOscuras() const {
 
     vector<pair<int, int> > resultado;
 
-    int i = 0, j;
+    int i = 0;
     while (i < alto()) {
-        j = 0;
+        int j = 0;
         while (j < ancho()) {
             Pixel estePixel = pixels[i][j];
             int colorPixel = estePixel.red() + estePixel.green() + estePixel.blue();
 
             if (colorPixel < colorMasOscuro) colorMasOscuro = colorPixel;
+
+            j++;
         }
+        i++;
     }
 
 
     i = 0;
     while (i < alto()) {
-        j = 0;
+        int j = 0;
         while (j < ancho()) {
             Pixel estePixel = pixels[i][j];
             int colorPixel = estePixel.red() + estePixel.green() + estePixel.blue();
 
             if (colorPixel < colorMasOscuro) resultado.push_back(make_pair(i, j));
+            j++;
         }
+        i++;
     }
-
-
 
     return resultado;
 }
@@ -217,8 +220,13 @@ bool Imagen::operator==(const Imagen &otra) const {
             while (j < ancho()) {
                 Pixel p1 = pixels[i][j];
                 Pixel p2 = otra.obtenerPixel(i, j);
-                if (p1.red() != p2.red() || p1.green() != p2.green() || p1.blue() != p2.blue()) resultado = false;
+                if (p1.red() != p2.red() ||
+                        p1.green() != p2.green() ||
+                        p1.blue() != p2.blue())
+                    resultado = false;
+                j++;
             }
+            i++;
         }
     }
 

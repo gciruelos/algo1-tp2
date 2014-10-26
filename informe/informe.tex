@@ -97,14 +97,14 @@
 \enter \textbf{problema laMasChiquitaConPuntoBlanco} $(g:Galeria)$= $result:Imagen$ \{\enter
 \requiere{existeImagenConPuntoBlanco}{(\exists h \leftarrow imagenes(g)) tieneBlanco (h)}
 \asegura{}{tieneBlanco(result)}
-\asegura{}{ancho(Result)*alto(Result) \leq ancho(j)*alto(j) (\forall j \leftarrow imagenesConBlanco(g))}
+\asegura{}{(\forall j \leftarrow imagenesConBlanco(g)) ancho(result)*alto(result) \leq ancho(j)*alto(j) }
 \tab\aux{imagenesConBlanco} $(g:Galeria):[Imagen]$=$[H|H \leftarrow imagenes (g), tieneBlanco (H)]$\\
-\tab\aux{tieneBlanco}$(i:Imagen):Bool$=$(\exists x \leftarrow [0..ancho(i)),y \leftarrow [0..alto(i))) sumaColor (color(i,x,y))==765$\\
+\tab\aux{tieneBlanco}$(i:Imagen):Bool$=$(\exists x \leftarrow [0..ancho(i)),y \leftarrow [0..alto(i))) sumaColor (color(i,x,y))==255*3$\\
 \tab\aux{sumaColor}$(p:Pixel): \mathbb{Z}$ = $red(p)+green(p)+blue(p)$\\
 \}
 
 \subsection{agregarImagen}
-\enter \textbf{problema agergarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
+\enter \textbf{problema agregarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
 \requiere{}{i\notin imagenes(g)}
 \modifica{g}
 \asegura{}{mismos (imagenes(g),imagenes(pre(g))++[i])}
@@ -126,12 +126,16 @@
 \requiere{}{|imagenes(g)| \neq 0}
 \modifica{g}
 \asegura{}{|imagenes (pre(g))| == |imagenes(g)|+1}
-\asegura{}{(\exists h \in imagenes(pre(g))) (\forall j \leftarrow imagenes(g)), h\notin imagenes(g))votos(pre(g),h) \geq votos(g,j)}
-\asegura{}{(\forall j \leftarrow imagenes(pre(g)), not(esMasVotada(pre(g),j))), j \in imagenes(g)}
-\asegura{}{(\forall i \leftarrow imagenes(g) not(esMasVotada(pre(g),i)) votos(g,i)==votos(pre(g),i)}
-\asegura{}{(\forall i \leftarrow imagenes(g), esMasVotada(i)) votos(g,i)==votos(pre(g),i)}
-\tab\aux{esMasVotada} $(g:Galeria,i:Imagen):Bool$ = $(\forall j \leftarrow imagenes(g)) votos(g,i) \geq votos(g,j)$\\
+\asegura{}{(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq gotos(pre(g), j)}
+\asegura{}{(\forall h \leftarrow imagenes(g) , h \in imagenes(pre(g))) votos(pre(g), h) == votos(g, h)}
+%\asegura{}{(\exists h \in imagenes(pre(g))) (\forall j \leftarrow imagenes(g)), h\notin imagenes(g))votos(pre(g),h) \geq votos(g,j)}
+%\asegura{}{(\forall j \leftarrow imagenes(pre(g)), not(esMasVotada(pre(g),j))), j \in imagenes(g)}
+%\asegura{}{(\forall i \leftarrow imagenes(g) not(esMasVotada(pre(g),i)) votos(g,i)==votos(pre(g),i)}
+%\asegura{}{(\forall i \leftarrow imagenes(g), esMasVotada(i)) votos(g,i)==votos(pre(g),i)}
+%\tab\aux{esMasVotada} $(g:Galeria,i:Imagen):Bool$ = $(\forall j \leftarrow imagenes(g)) votos(g,i) \geq votos(g,j)$\\
 \}
+
+
 
 \section{Implementacion}
 \lstset{language=C++,

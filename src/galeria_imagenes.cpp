@@ -69,21 +69,26 @@ void GaleriaImagenes::votar(const Imagen &imagen) {
         imagenes_nuevas.push_back(imagenes[i]);
         votos_nuevos.push_back(votos[i]);
 
+
         i++;
     }
+
+    // requerimos que la imagen este, entonces en este estado i<imagenes.size() e imagenes[i]==imagen
     votos_imagen = votos[i];
     i++;
-    // requerimos que la imagen este, entonces en este estado i<imagenes.size() e imagenes[i]==imagen
+
+
     while (votos[i] == votos_imagen && i < imagenes.size()) {
         imagenes_nuevas.push_back(imagenes[i]);
         votos_nuevos.push_back(votos[i]);
 
         i++;
     }
+
     imagenes_nuevas.push_back(imagen);
     votos_nuevos.push_back(votos_imagen + 1);
 
-    while (votos[i] == votos_imagen && i < imagenes.size()) {
+    while (i < imagenes.size()) {
         imagenes_nuevas.push_back(imagenes[i]);
         votos_nuevos.push_back(votos[i]);
 
@@ -95,10 +100,8 @@ void GaleriaImagenes::votar(const Imagen &imagen) {
 }
 
 void GaleriaImagenes::eliminarMasVotada() {
-    if(imagenes.size() > 0) {
-        imagenes.pop_back();
-        votos.pop_back();
-    }
+    imagenes.pop_back();
+    votos.pop_back();
 }
 
 
@@ -159,6 +162,7 @@ void GaleriaImagenes::dividirYAgregar(const Imagen &imagen, int n, int m) {
         int i = 0;
         while(i < dividida.size()) {
             this->agregarImagen(dividida[i]);
+            i++;
         }
     }
 }
@@ -168,10 +172,12 @@ void GaleriaImagenes::guardar(std::ostream& os) const {
 
     int i = 0;
     while(i < imagenes.size()) {
-        if (i!=0) os << ",";
+        if (i != 0) os << ",";
         os << "(";
         imagenes[i].guardar(os);
         os << "," << votos[i] << ")";
+
+        i++;
     }
     os << "]" << endl;
 }
