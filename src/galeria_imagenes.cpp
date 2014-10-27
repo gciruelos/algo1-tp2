@@ -57,6 +57,8 @@ void GaleriaImagenes::agregarImagen(const Imagen &imagen) {
 
         i++;
     }
+    imagenes = imagenes_nuevas;
+    votos = votos_nuevos;
 }
 
 void GaleriaImagenes::votar(const Imagen &imagen) {
