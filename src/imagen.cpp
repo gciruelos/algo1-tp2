@@ -1,20 +1,21 @@
 #include "imagen.h"
 
-void sort(vector<int> &v) {
+void sort(vector <int> &v){
     //algoritmo de burbujeo
-    int i = 0;
-    while(i < v.size()) {
-        int j = i;
-        while(j < v.size() - 1) {
-            if (v[j] > v[j + 1]) {
+    int sz = v.size();
+    int i = 0
+    while(i<sz){
+        int j = 0;
+        while(j<sz-1-i){
+            if (!(v[j]<=v[j+1])){
                 int temp = v[j];
-                v[j] = v[j + 1];
-                v[j + 1] = temp;
+                v[j] = v[j+1];
+                v[j+1] = temp;
             }
             j++;
         }
         i++;
-    }
+    }   
 }
 
 Imagen::Imagen(int alto_param, int ancho_param) {
