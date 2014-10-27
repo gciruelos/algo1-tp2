@@ -15,7 +15,8 @@
 \usepackage{caratula}
 \usepackage{mathtools}
 \usepackage{caption}
-\usepackage{listings}
+\usepackage{color}
+
 % incluye macros espec materia
 %\include{algo1-cmds}
 
@@ -34,12 +35,6 @@
 \newcommand{\asegura}[2] {\tab\textbf{asegura #1}: $#2$;\\[6pt]}
 \newcommand{\modifica}[1] {\tab\textbf{modifica}: $#1$;\\[6pt]}
 \newcommand{\aux}[1] {\textbf{aux #1}}
-
-
-\renewcommand\lstlistingname{Código fuente}
-\renewcommand\lstlistlistingname{Códigos fuente}
-
-
 
 \begin{document}
 
@@ -62,9 +57,6 @@
 % Forzar salto de pagina
 \clearpage
 
-% Pueden modularizar el documento incluyendo otros .tex
-% \include{observaciones}
-
 \section{Observaciones}
 
 	\begin{enumerate}
@@ -77,20 +69,22 @@
 \section{Especificación}
 
 \subsection{posicionesMasOscuras}
-\enter \textbf{problema posicionesMasOscuras} ($i:Imagen$) = $result : [\langle\mathbb{Z},\mathbb{Z}\rangle]$ \{\enter
-\asegura{}{mismos (result, [(x,y)| x \leftarrow [0..ancho(i)), y \leftarrow [0..alto (i)), sumaColor (color (i,x,y))==colorMinimo (i)])}
+\enter \textbf{problema posicionesMasOscuras} ($im:Imagen$) = $result : [\langle\mathbb{Z},\mathbb{Z}\rangle]$ \{\enter
+\asegura{}{mismos (result, [(i,j)| i \leftarrow [0..ancho(im)), j \leftarrow [0..alto (im)), \ esMinimo(sumaColor (color (im,i,j)), im)])}
 \tab\aux{sumaColor}(p:Pixel):$\mathbb{Z}$ = red(p)+green(p)+blue(p);\\
-\tab\aux{colorMinimo}(i:Imagen):$\mathbb{Z}$ = $min([sumaColor(color(i,x,y))|x\leftarrow [0..ancho(i)),i\leftarrow [0..alto(i))])$; \\
-\tab\aux{min} $(l:[\mathbb{Z}]):\mathbb{Z} =[l_i|(\forall i,j \leftarrow [0..|l|)) l_i \leq l_j]_0$;\\
+\tab\aux{esMinimo}(s : $\mathbb{Z}$, im : Imagen) : Bool = $(\forall i \leftarrow [0..ancho(im)), \forall j \leftarrow [0..alto (im))) \ s \geq sumaColor(color (im,i,j))$
+%\tab\aux{colorMinimo}(i:Imagen):$\mathbb{Z}$ = $min([sumaColor(color(i,x,y))|x\leftarrow [0..ancho(i)),i\leftarrow [0..alto(i))])$; \\
+%\tab\aux{min} $(l:[\mathbb{Z}]):\mathbb{Z} =[l_i|(\forall i,j \leftarrow [0..|l|)) l_i \leq l_j]_0$;\\
 \}
 
 \subsection{top10}
 \enter \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
-\asegura{}{0 \leq |Result| \leq 10}
-\asegura{}{ if\  |imagenes(g)| \leq 10 \ then\ mismos(result, imagenes(g)) \ else\ (\forall i \leftarrow sacar(imagenes(g),result))(j\leftarrow result),votos(g,i) \leq votos(g,j)}
-\asegura{}{estaOrdenadaDecreciente([votos(g,result_i)|i\leftarrow[0..|result|)])}
-\tab\aux{sacar} $(L:[T],A:[T]):[T]$ = $[l|(l\leftarrow L),(\forall a \leftarrow A), l \neq a]$\\
-\tab\aux{estaOrdenadaDecreciente}$(l:[\mathbb{Z}]): Bool$ = $(\forall i,j \leftarrow [0..|l|), i\geq j),l_j \geq l_i$\\
+\asegura{}{0 \leq |result| \leq 10}
+\asegura{}{|imagenes(g)| \leq 10 \implies mismos(result, imagenes(g))}
+\asegura{}{(\forall h \leftarrow result) h\in imagenes(g) \land esTop10(h,g)}
+\asegura{}{ordenadaDecreciente([votos(g,result_i)|i\leftarrow[0..|result|)])}
+\tab\aux{esTop10} $(h : Imagen, g : Galeria) : Bool$ = $|[ im | im \leftarrow imagenes(g), votos(g, im) < votos(g,h) ]| < 10$ \\
+\tab\aux{ordenadaDecreciente}$(l:[\mathbb{Z}]): Bool$ = $(\forall i,j \leftarrow [0..|l|), i\geq j)l_j \geq l_i$\\
 \}
 
 \subsection{laMasChiquitaConPuntoBlanco}
@@ -109,7 +103,7 @@
 \modifica{g}
 \asegura{}{mismos (imagenes(g),imagenes(pre(g))++[i])}
 \asegura{}{votos(g,i)==0}
-\asegura{}{(\forall h \leftarrow imagenes(g), j \leftarrow imagenes (pre(g)), h==j) votos(g,h) == votos(pre(g)), j)}
+\asegura{}{(\forall h \leftarrow imagenes(pre(g))) votos(g,h) == votos(pre(g), h)}
 \}
 
 \subsection{votar}
@@ -117,16 +111,16 @@
 \requiere{}{i\in imagenes(g)}
 \modifica{g}
 \asegura{}{mismos(imagenes(g),imagenes(pre(g)))}
-\asegura{}{(\forall h \leftarrow imagenes(g),j \leftarrow imagenes(pre(g)), h==j , h\neq i) votos(g,h)==votos(pre(g),j)}
+\asegura{}{(\forall h \leftarrow imagenes(g), h\neq i) votos(g,h)==votos(pre(g),h)}
 \asegura{}{votos(g,i)==votos(pre(g),i)+1}
 \}
 
 \subsection{eliminarMasVotada}
 \enter \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
-\requiere{}{|imagenes(g)| \neq 0}
+\requiere{}{|imagenes(g)| > 0}
 \modifica{g}
 \asegura{}{|imagenes (pre(g))| == |imagenes(g)|+1}
-\asegura{}{(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq gotos(pre(g), j)}
+\asegura{}{(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq votos(pre(g), j)}
 \asegura{}{(\forall h \leftarrow imagenes(g) , h \in imagenes(pre(g))) votos(pre(g), h) == votos(g, h)}
 %\asegura{}{(\exists h \in imagenes(pre(g))) (\forall j \leftarrow imagenes(g)), h\notin imagenes(g))votos(pre(g),h) \geq votos(g,j)}
 %\asegura{}{(\forall j \leftarrow imagenes(pre(g)), not(esMasVotada(pre(g),j))), j \in imagenes(g)}
@@ -138,22 +132,119 @@
 
 
 \section{Implementacion}
+\renewcommand\lstlistingname{Código fuente}
+\renewcommand\lstlistlistingname{Códigos fuente}
+
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{darkblue}{RGB}{0,0,127}
+\definecolor{orange}{RGB}{255,69,0}
+\definecolor{grey}{RGB}{63,63,63}
 \lstset{language=C++,
         basicstyle=\ttfamily\footnotesize,
         showstringspaces=false,
         numbers=left,
         numberstyle=\scriptsize,
-        %keywordstyle=\color{blue}
-        %xleftmargin=\leftmargin
+        keywordstyle=\color{darkblue},
+        commentstyle=\color{darkgreen},
+        stringstyle=\color{orange},
+        identifierstyle=\color{black},
+        numberstyle=\tiny\color{grey}, 
 }
-\lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
-\lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
-\lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
-\lstinputlisting[caption=main.cpp]{../src/main.cpp}
+%\lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
+%\lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
+%\lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
+%\lstinputlisting[caption=main.cpp]{../src/main.cpp}
+
 
 \section{Demostraciones}
 
+\subsection{Invariante de Representación}
+\enter
+InvRep (imp: ClaseGaleriaImagen):\\
+\indent$|imp.imagenes| ==  |imp.votos| \ \land$ \\
+\indent$(\forall v \leftarrow votos)\ v \geq 0 \ \land$ \\
+\indent$(\forall i,j \leftarrow [0..|imp.imagenes|, i \neq j)\  imp.imagenes[i] \neq imp.imagenes[j]\ \land$ \\
+\indent$(\forall i \leftarrow [0..|Imp.votos|-1))\ votos[i+1] \geq votos[i]$ \\
+
+\subsection{Función de Abstracción}
+\enter
+abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
+\indent$mismos(imagenes(esp),imp.imagenes) \ \land$ \\
+\indent$(\forall h \leftarrow imagenes(esp), \forall i \leftarrow [0..|imp.imagenes|), imp.imagenes[i] == h)\ imp.votos[i]== votos(esp,h)$ \\
+
+\subsection{Correctitud del Código}
+\enter
+\textbf{\textcolor{darkgreen}{void GaleriaImagenes :: eliminarMasVotada () \{}} \\
+
+//estado 1; \\
+\indent//vale $InvRep(this);$ \\ 
+\indent//vale $|imagenes|>0;$ \\
+
+\textbf{\textcolor{darkgreen}{imagenes . pop\_back ();}} \\
+
+//estado 2; \\
+\indent//vale $|imagenes| == |imagenes@1| - 1;$ \\
+\indent//vale $(\forall  i \leftarrow  [0..|imagenes@1|-1)) imagenes[i] == imagenes@1[i]; $\\
+\indent//vale $votos == votos@1;$ \\
+
+\textbf{\textcolor{darkgreen}{votos . pop\_back ();}}\\
+
+//estado 3;
+\indent //vale $|votos| == |votos@2| - 1;$ \\
+\indent //vale $(\forall  i \leftarrow  [0..|votos@1|-1)) votos[i] == votos@2[i]; $\\
+\indent //vale $imagenes == imagenes@2;$\\
+\\
+\textbf{\textcolor{darkgreen}{\}}}
+\enter 
+
+//Queremos ver que vale InvRep(this);\\
+\indent  // 1; \\
+\indent //vale $imagenes == imagenes@2;$ \\
+\indent //implica $|imagenes| = |imagenes@1|-1 \land |votos|==|votos@1|-1;$ \\
+\indent //implica $|imagenes| == |votos| (pues |imagenes@1| == |votos@1| por InvRep); $ \\
+
+\indent // 2; \\
+\indent //vale  $( \forall v \leftarrow votos@1) v \geq 0;$ \\
+\indent //vale  $votos@2 == votos@1;$ \\
+\indent //vale $(\forall i \leftarrow [0..|votos@2|-1)) votos[i] == votos@2[i];$ \\
+\indent //implica $(\forall i \leftarrow [0..|votos@1|-1) votos[i] == votos@1[i];$ \\
+\indent //implica $ (\forall v \leftarrow votos) v \geq 0 (pues es una sublista);$ (sublista de votos@1) \\
+
+\indent // 3;\\
+\indent //vale $imagenes == imagenes@2;$\\
+\indent //vale $ (\forall i \leftarrow [0..|imagenes@1|-1)) imagenes@2[i]== imagenes@1[i];$\\
+\indent //implica $imagenes@1[0..|imagenes@1|-1) == imagenes;$\\
+\indent //vale $(\forall i,j \leftarrow [0..|imagenes@1]) i \neq j) imagenes@1[i] \neq imagenes@1[j];$\\
+\indent //implica $(\forall i,j \leftarrow [0..|imagenes]) i \neq j) imagenes[i] \neq imagenes[j];$(sublista de imagenes@1)\\
+
+\indent // 4;\\
+\indent //vale  $(\forall i \leftarrow [0..|votos@1|-1)) votos@1[i+1] \geq votos@1[i] ;$\\
+\indent //vale  $votos@2 == votos@1;$\\
+\indent //vale $(\forall i \leftarrow [0..|votos@2|-1)) votos[i] == votos@2[i];$\\
+\indent //implica $(\forall i \leftarrow [0..|votos@1|-1) votos[i] == votos@1[i];$\\
+\indent // implica $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i] ;$(por ser sublista de votoss@1)\\
+\indent //vale InvRep(this);\\
+
+\indent //vale InvRep(this);\\
+\indent //vale abs(this,g);\\
+
+\indent //1;\\
+\indent // vale $mismos(imagenes, imagenes(g));$\\
+\indent //vale $(\forall i \leftarrow [0..|imagenes|)) votos(g,imagenes[i])==votos[i];$\\
+\indent //vale $|imagenes| == |imagenes|-1;$(ya que imagenes == imagenes@2)\\
+\indent //implica $|imagenes|+1 == |imagenes@1|;$\\
+\indent //vale $|imagenes(g)|+1 == |imagenes(pre(g))||;$ (pues son mismos)\\
+
+\indent //2;\\ 
+\indent //vale $|imagenes(g)| == |imagenes(pre(g)| - 1 \land |votos(g)| == |votos(pre(g))| - 1;$\\
+\indent //vale $(\forall i \leftarrow [0..|imagenes|-1) imagenes[i] == imagenes@1[i]  \land (\forall i \leftarrow [0..|votos|-1) votos[i] == votos@1[i];$\\
+\indent //implica $ imagenes(pre(g)) == imagenes(g) ++ imagenes(pre(g))[imagenes(pre(g))-1] \land votos(pre(g)) == votos(g) ++ votos(pre(g))[];$ (por mismos entre g y this)\\
+\indent //vale $(\forall i \leftarrow [0..|votos@1|-1)) votos@1[i+1] \geq votos@1[i] ;$\\
+\indent //vale $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i] ;$\\
+\indent //implica $(\forall i \leftarrow [0..|votos|-1)) votos@1[|votos@1-1|] \geq votos[i];$\\
+\indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \neq imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$\\
+
+\indent //3;
 
 \end{document}
-
 
