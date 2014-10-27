@@ -91,7 +91,7 @@
 \enter \textbf{problema laMasChiquitaConPuntoBlanco} $(g:Galeria)$= $result:Imagen$ \{\enter
 \requiere{existeImagenConPuntoBlanco}{(\exists h \leftarrow imagenes(g)) tieneBlanco (h)}
 \asegura{}{tieneBlanco(result)}
-\asegura{}{(\forall j \leftarrow imagenesConBlanco(g)) ancho(result)*alto(result) \leq ancho(j)*alto(j) }
+\asegura{esLaMasChica}{(\forall j \leftarrow imagenesConBlanco(g)) ancho(result)*alto(result) \leq ancho(j)*alto(j) }
 \tab\aux{imagenesConBlanco} $(g:Galeria):[Imagen]$=$[H|H \leftarrow imagenes (g), tieneBlanco (H)]$\\
 \tab\aux{tieneBlanco}$(i:Imagen):Bool$=$(\exists x \leftarrow [0..ancho(i)),y \leftarrow [0..alto(i))) sumaColor (color(i,x,y))==255*3$\\
 \tab\aux{sumaColor}$(p:Pixel): \mathbb{Z}$ = $red(p)+green(p)+blue(p)$\\
@@ -101,17 +101,17 @@
 \enter \textbf{problema agregarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
 \requiere{}{i\notin imagenes(g)}
 \modifica{g}
-\asegura{}{mismos (imagenes(g),imagenes(pre(g))++[i])}
+\asegura{agregaImagen}{mismos (imagenes(g),imagenes(pre(g))++[i])}
 \asegura{}{votos(g,i)==0}
-\asegura{}{(\forall h \leftarrow imagenes(pre(g))) votos(g,h) == votos(pre(g), h)}
+\asegura{noCambiaVotos}{(\forall h \leftarrow imagenes(pre(g))) votos(g,h) == votos(pre(g), h)}
 \}
 
 \subsection{votar}
 \enter \textbf{problema votar} $(g:Galeria,i:Imagen)$ \{ \enter
 \requiere{}{i\in imagenes(g)}
 \modifica{g}
-\asegura{}{mismos(imagenes(g),imagenes(pre(g)))}
-\asegura{}{(\forall h \leftarrow imagenes(g), h\neq i) votos(g,h)==votos(pre(g),h)}
+\asegura{noCambiaImagenes}{mismos(imagenes(g),imagenes(pre(g)))}
+\asegura{noCambiaVotosDelResto}{(\forall h \leftarrow imagenes(g), h\neq i) votos(g,h)==votos(pre(g),h)}
 \asegura{}{votos(g,i)==votos(pre(g),i)+1}
 \}
 
@@ -119,14 +119,10 @@
 \enter \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
 \requiere{}{|imagenes(g)| > 0}
 \modifica{g}
-\asegura{}{|imagenes (pre(g))| == |imagenes(g)|+1}
-\asegura{}{(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq votos(pre(g), j)}
-\asegura{}{(\forall h \leftarrow imagenes(g) , h \in imagenes(pre(g))) votos(pre(g), h) == votos(g, h)}
-%\asegura{}{(\exists h \in imagenes(pre(g))) (\forall j \leftarrow imagenes(g)), h\notin imagenes(g))votos(pre(g),h) \geq votos(g,j)}
-%\asegura{}{(\forall j \leftarrow imagenes(pre(g)), not(esMasVotada(pre(g),j))), j \in imagenes(g)}
-%\asegura{}{(\forall i \leftarrow imagenes(g) not(esMasVotada(pre(g),i)) votos(g,i)==votos(pre(g),i)}
-%\asegura{}{(\forall i \leftarrow imagenes(g), esMasVotada(i)) votos(g,i)==votos(pre(g),i)}
-%\tab\aux{esMasVotada} $(g:Galeria,i:Imagen):Bool$ = $(\forall j \leftarrow imagenes(g)) votos(g,i) \geq votos(g,j)$\\
+\asegura{eliminaUnaImagen}{|imagenes (pre(g))| == |imagenes(g)|+1}
+\asegura{eliminaLaMasVotada}{(\forall h \leftarrow imagenes(pre(g))) \\
+\indent \indent h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq votos(pre(g), j)}
+\asegura{noCambiaVotos}{(\forall h \leftarrow imagenes(g) , h \in imagenes(pre(g))) votos(pre(g), h) == votos(g, h)}
 \}
 
 
