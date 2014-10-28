@@ -3,7 +3,7 @@
 void sort(vector <int> &v){
     //algoritmo de burbujeo
     int sz = v.size();
-    int i = 0
+    int i = 0;
     while(i<sz){
         int j = 0;
         while(j<sz-1-i){
