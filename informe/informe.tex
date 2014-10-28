@@ -65,7 +65,6 @@
 
 % Otro salto de pagina
 % \newpage
-
 \section{Especificación}
 
 \subsection{posicionesMasOscuras}
@@ -173,70 +172,66 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \textbf{\textcolor{darkgreen}{void GaleriaImagenes :: eliminarMasVotada () \{}} \\
 
 //estado 1; \\
-\indent//vale $InvRep(this);$ \\ 
-\indent//vale $|imagenes|>0;$ \\
+\indent//vale $InvRep(this);$ \\
+\indent//implica $abs(this, pre(g);$ \\
+\indent//vale $|this.imagenes|>0;$ \\
+\indent//vale $this == pre(this);$\\
 
 \textbf{\textcolor{darkgreen}{imagenes . pop\_back ();}} \\
 
 //estado 2; \\
-\indent//vale $|imagenes| == |imagenes@1| - 1;$ \\
-\indent//vale $(\forall  i \leftarrow  [0..|imagenes@1|-1)) imagenes[i] == imagenes@1[i]; $\\
+\indent //vale $this@1.imagenes == this.imagenes ++ [this@1.imagenes[|this@1.imagenes|-1]];$\\
 \indent//vale $votos == votos@1;$ \\
 
 \textbf{\textcolor{darkgreen}{votos . pop\_back ();}}\\
 
-//estado 3;
-\indent //vale $|votos| == |votos@2| - 1;$ \\
-\indent //vale $(\forall  i \leftarrow  [0..|votos@1|-1)) votos[i] == votos@2[i]; $\\
-\indent //vale $imagenes == imagenes@2;$\\
-\\
+//estado 3; \\
+\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$\\
+\indent//vale $imagenes == imagenes@2;$ \\
+
+%\\[2pts]
 \textbf{\textcolor{darkgreen}{\}}}
 \enter 
 
 //Queremos ver que vale InvRep(this);\\
-\indent  // 1; \\
-\indent //vale $imagenes == imagenes@2;$ \\
-\indent //implica $|imagenes| = |imagenes@1|-1 \land |votos|==|votos@1|-1;$ \\
-\indent //implica $|imagenes| == |votos| (pues |imagenes@1| == |votos@1| por InvRep); $ \\
+\indent  // (1); \\
+\indent //vale $imagenes == imagenes@2 \land \ this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
+\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]] \land \ pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$     \label{por transformacion de estados} \\
+\indent //implica $|pre(this).imagenes| == |this.imagenes| +1 \land \ |pre(this).votos| == |this.votos| +1;$             por propiedad de longitud \\
+\indent //implica $|imagenes| == |votos|$          pues $|pre(this).imagenes| == |pre(this).votos|;$ por $InvRep(pre(this))$ \\
 
-\indent // 2; \\
-\indent //vale  $( \forall v \leftarrow votos@1) v \geq 0;$ \\
-\indent //vale  $votos@2 == votos@1;$ \\
-\indent //vale $(\forall i \leftarrow [0..|votos@2|-1)) votos[i] == votos@2[i];$ \\
-\indent //implica $(\forall i \leftarrow [0..|votos@1|-1) votos[i] == votos@1[i];$ \\
-\indent //implica $ (\forall v \leftarrow votos) v \geq 0 (pues es una sublista);$ (sublista de votos@1) \\
+\indent // (2); \\
+\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
+\indent //implica $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$  por transformacion de estados\\
+\indent //implica $ (\forall v \leftarrow this.votos) v \geq 0;$ (pues es una sublista de pre(this).votos y vale para esta lista por $InvRep(pre(this))$ \\
 
-\indent // 3;\\
-\indent //vale $imagenes == imagenes@2;$\\
-\indent //vale $ (\forall i \leftarrow [0..|imagenes@1|-1)) imagenes@2[i]== imagenes@1[i];$\\
-\indent //implica $imagenes@1[0..|imagenes@1|-1) == imagenes;$\\
-\indent //vale $(\forall i,j \leftarrow [0..|imagenes@1]) i \neq j) imagenes@1[i] \neq imagenes@1[j];$\\
-\indent //implica $(\forall i,j \leftarrow [0..|imagenes]) i \neq j) imagenes[i] \neq imagenes[j];$(sublista de imagenes@1)\\
+\indent // (3); \\
+\indent //vale $this@1.imagenes == this.imagenes ++ [this@1.imagenes[|this@1.imagenes|-1]];$ \\
+\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]];$  por transformacion de estados\\
+\indent //implica $(\forall i,j \leftarrow [0..|this.imagenes]) i \neq j) this.imagenes[i] \neq this.imagenes[j];$(pues es una sublista de pre(this).votos y vale para esta lista por $InvRep(pre(this))$)\\
 
-\indent // 4;\\
-\indent //vale  $(\forall i \leftarrow [0..|votos@1|-1)) votos@1[i+1] \geq votos@1[i] ;$\\
-\indent //vale  $votos@2 == votos@1;$\\
-\indent //vale $(\forall i \leftarrow [0..|votos@2|-1)) votos[i] == votos@2[i];$\\
-\indent //implica $(\forall i \leftarrow [0..|votos@1|-1) votos[i] == votos@1[i];$\\
-\indent // implica $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i] ;$(por ser sublista de votoss@1)\\
-\indent //vale InvRep(this);\\
+\indent // (4); \\
+\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
+\indent //implica $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$  por transformacion de estados\\
+\indent // implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i];$ pues this.votos es sublista de pre(this).votos, que esta ordenada por InvRep(this)\\
 
-\indent //vale InvRep(this);\\
-\indent //vale abs(this,g);\\
-
-\indent //1;\\
-\indent // vale $mismos(imagenes, imagenes(g));$\\
-\indent //vale $(\forall i \leftarrow [0..|imagenes|)) votos(g,imagenes[i])==votos[i];$\\
-\indent //vale $|imagenes| == |imagenes|-1;$(ya que imagenes == imagenes@2)\\
-\indent //implica $|imagenes|+1 == |imagenes@1|;$\\
-\indent //vale $|imagenes(g)|+1 == |imagenes(pre(g))||;$ (pues son mismos)\\
+\enter
+\indent //vale $InvRep(this);$ \\
+\indent //implica $abs(this, g);$ \\
+\indent //Ahora queremos ver que valen los aseguras del problema\\
+\indent //(1);\\
+\indent //vale $mismos(this.imagenes, imagenes(g));$ por abs(this, g) \\
+\indent //vale $mismos(pre(this).imagenes, imagenes(g));$ por abs(pre(this), pre(g)) \\
+\indent //implica $|imagenes(g)| == |this.imagenes| \land \ |imagenes(pre(g))| == |pre(this).imagenes|;$ \\
+\indent //vale $|pre(this).imagenes| == |this.imagenes|+1;$ por transformacion de estados y propiedades de longitud, justificado antes\\
+\indent //implica $|imagenes(g)|+1 == |imagenes(pre(g))|;$ por las dos proposiciones anteriores\\
 
 \indent //2;\\ 
 \indent //vale $|imagenes(g)| == |imagenes(pre(g)| - 1 \land |votos(g)| == |votos(pre(g))| - 1;$\\
 \indent //vale $(\forall i \leftarrow [0..|imagenes|-1) imagenes[i] == imagenes@1[i]  \land (\forall i \leftarrow [0..|votos|-1) votos[i] == votos@1[i];$\\
 \indent //implica $ imagenes(pre(g)) == imagenes(g) ++ imagenes(pre(g))[imagenes(pre(g))-1] \land votos(pre(g)) == votos(g) ++ votos(pre(g))[];$ (por mismos entre g y this)\\
 \indent //vale $(\forall i \leftarrow [0..|votos@1|-1)) votos@1[i+1] \geq votos@1[i] ;$\\
-\indent //vale $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i] ;$\\
+\indent //vale $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i];$\\
 \indent //implica $(\forall i \leftarrow [0..|votos|-1)) votos@1[|votos@1-1|] \geq votos[i];$\\
 \indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \neq imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$\\
 
