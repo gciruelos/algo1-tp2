@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2014.10.21)  28 OCT 2014 02:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2014.10.21)  29 OCT 2014 20:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -662,14 +662,14 @@ Overfull \hbox (25.60904pt too wide) in paragraph at lines 52--52
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logo_dc.jpg> <./logo_uba
 .jpg>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 71.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 64.
  (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 71.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 64.
 
-Overfull \hbox (8.92885pt too wide) in paragraph at lines 71--78
+Overfull \hbox (8.92885pt too wide) in paragraph at lines 77--84
 \OT1/cmr/m/n/10 - \OT1/cmr/bx/n/10 ase-gu-ra \OT1/cmr/m/n/10 : $\OML/cmm/m/it/1
 0 mismos\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 result; \OT1/cmr/m/n/10 [(\OML/cmm/m/
 it/10 i; j\OT1/cmr/m/n/10 )\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 i \OMS/cmsy/m/n/1
@@ -682,15 +682,15 @@ ML/cmm/m/it/10 ;  esMinimo\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 sumaColor\OT1/cmr/m
  []
 
 
-Overfull \hbox (9.22389pt too wide) in paragraph at lines 71--78
+Overfull \hbox (12.00168pt too wide) in paragraph at lines 77--84
 \OT1/cmr/m/n/10 - \OT1/cmr/bx/n/10 aux es-Mi-ni-mo\OT1/cmr/m/n/10 (s : $\U/msb/
 m/n/10 Z$\OT1/cmr/m/n/10 , im : Ima-gen) : Bool = $(\OMS/cmsy/m/n/10 8\OML/cmm/
 m/it/10 i \OMS/cmsy/m/n/10   \OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ::ancho\OT1/cmr
 /m/n/10 (\OML/cmm/m/it/10 im\OT1/cmr/m/n/10 ))\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/
 10 8\OML/cmm/m/it/10 j \OMS/cmsy/m/n/10   \OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ::
 alto\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 im\OT1/cmr/m/n/10 ))) \OML/cmm/m/it/10 s 
-\OMS/cmsy/m/n/10 ^^U \OML/cmm/m/it/10 sumaColor\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
-0 color\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 im; i; j\OT1/cmr/m/n/10 ))$
+\OMS/cmsy/m/n/10 ^^T \OML/cmm/m/it/10 sumaColor\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
+0 color\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 im; i; j\OT1/cmr/m/n/10 ));$
  []
 
 [2
@@ -704,127 +704,75 @@ File: lstlang1.sty 2014/03/04 1.5c listings language file
 (/usr/share/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2014/03/04 1.5c (Carsten Heinz)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 157--163
+Underfull \hbox (badness 10000) in paragraph at lines 166--172
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 165--169
-
- []
-
-LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 172.
-
-Underfull \hbox (badness 10000) in paragraph at lines 171--173
-
- []
-
-[3]
 Underfull \hbox (badness 10000) in paragraph at lines 174--179
 
  []
 
+[3]
+LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <9> not available
+(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 182.
 
-Underfull \hbox (badness 10000) in paragraph at lines 180--181
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 182--185
+Underfull \hbox (badness 10000) in paragraph at lines 181--183
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
+Underfull \hbox (badness 10000) in paragraph at lines 184--189
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 188--191
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--195
+Underfull \hbox (badness 10000) in paragraph at lines 192--195
 
  []
 
 
-Overfull \hbox (24.27411pt too wide) in paragraph at lines 196--202
-[]\OT1/cmr/m/n/10 //implica $\OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 (\OML/cmm/m/it
-/10 this\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :imagenes \OT1/cmr/m/n/10 == \OML/cmm
-/m/it/10 this:imagenes \OT1/cmr/m/n/10 + +[\OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 
-(\OML/cmm/m/it/10 this\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :imagenes\OT1/cmr/m/n/1
-0 [\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 this
-\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :imagenes\OMS/cmsy/m/n/10 j ^^@ \OT1/cmr/m/n/
-10 1]] \OMS/cmsy/m/n/10 ^  \OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 (\OML/cmm/m/it/1
-0 this\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :votos \OT1/cmr/m/n/10 ==
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 196--202
+Underfull \hbox (badness 10000) in paragraph at lines 196--197
 
  []
 
 
-Overfull \hbox (7.72379pt too wide) in paragraph at lines 203--207
-[]\OT1/cmr/m/n/10 //implica $(\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 v \OMS/cmsy/m/
-n/10   \OML/cmm/m/it/10 this:votos\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 v \OMS/cmsy
-/m/n/10 ^^U \OT1/cmr/m/n/10 0;$ (pues es una su-blis-ta de pre(this).votos y va
--le pa-ra es-ta lis-ta por $\OML/cmm/m/it/10 InvRep\OT1/cmr/m/n/10 (\OML/cmm/m/
-it/10 pre\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 this\OT1/cmr/m/n/10 ))$ 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 203--207
+Underfull \hbox (badness 10000) in paragraph at lines 198--201
 
  []
 
 
-Overfull \hbox (22.50494pt too wide) in paragraph at lines 208--212
-[]\OT1/cmr/m/n/10 //implica $(\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 i; j \OMS/cmsy
-/m/n/10   \OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ::\OMS/cmsy/m/n/10 j\OML/cmm/m/it/
-10 this:imagenes\OT1/cmr/m/n/10 ])\OML/cmm/m/it/10 i \OMS/cmsy/m/n/10 6\OT1/cmr
-/m/n/10 = \OML/cmm/m/it/10 j\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 this:imagenes\OT1
-/cmr/m/n/10 [\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ] \OMS/cmsy/m/n/10 6\OT1/cmr/m/n
-/10 = \OML/cmm/m/it/10 this:imagenes\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 j\OT1/cmr
-/m/n/10 ];$(pues es una su-blis-ta de pre(this).votos
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 208--212
+Underfull \hbox (badness 10000) in paragraph at lines 202--205
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--217
+Underfull \hbox (badness 10000) in paragraph at lines 206--213
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 218--228
+Underfull \hbox (badness 10000) in paragraph at lines 214--218
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 219--223
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 224--238
 
  []
 
 [4]
-Overfull \hbox (24.61201pt too wide) in paragraph at lines 229--237
-[]\OT1/cmr/m/n/10 //implica $(\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 h \OMS/cmsy/m/
-n/10   \OML/cmm/m/it/10 imagenes\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 pre\OT1/cmr/m
-/n/10 (\OML/cmm/m/it/10 g\OT1/cmr/m/n/10 )))\OML/cmm/m/it/10 h \OMS/cmsy/m/n/10
- 6\OT1/cmr/m/n/10 = \OML/cmm/m/it/10 imagenes\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 
-g\OT1/cmr/m/n/10 )  =[]\OMS/cmsy/m/n/10 )  \OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 8\
-OML/cmm/m/it/10 j \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 imagenes\OT1/cmr/m/n/10 (
-\OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 g\OT1/cmr/m/n/10 )))\OML/
-cmm/m/it/10 votos\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 pre\OT1/cmr/m/n/10 (\OML/cmm
-/m/it/10 g\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; h\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/
-10 ^^U \OML/cmm/m/it/10 votos\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 pre\OT1/cmr/m/n/
-10 (\OML/cmm/m/it/10 g\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; j\OT1/cmr/m/n/10 );$ 
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 229--237
+Underfull \hbox (badness 10000) in paragraph at lines 239--247
 
  []
 
@@ -834,31 +782,36 @@ LaTeX Info: Redefining \% on input line 6.
 ) )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 80 ({)
+### simple group (level 1) entered at line 86 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 7012 strings out of 493108
- 100667 string characters out of 6140724
- 198360 words of memory out of 5000000
- 10355 multiletter control sequences out of 15000+600000
- 8186 words of font info for 32 fonts, out of 8000000 for 9000
+ 7034 strings out of 493108
+ 100862 string characters out of 6140724
+ 200586 words of memory out of 5000000
+ 10369 multiletter control sequences out of 15000+600000
+ 11595 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,11n,58p,273b,394s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.p
-fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.
-pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on informe.pdf (5 pages, 519487 bytes).
+ 38i,11n,58p,281b,428s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbs
+y9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/s
+hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pf
+b>
+Output written on informe.pdf (5 pages, 573169 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 94 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
