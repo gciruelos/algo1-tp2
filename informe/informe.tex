@@ -31,6 +31,7 @@
 
 \newcommand{\tab}{\-\hspace{0.5cm}}
 \newcommand{\enter}{$\\[6pt]$}
+\newcommand{\entermini}{$\\[2pt]$}
 \newcommand{\requiere}[2] {\tab\textbf{requiere #1}: $#2$;\\[6pt]}
 \newcommand{\asegura}[2] {\tab\textbf{asegura #1}: $#2$;\\[6pt]}
 \newcommand{\modifica}[1] {\tab\textbf{modifica}: $#1$;\\[6pt]}
@@ -71,10 +72,11 @@
 
 % Otro salto de pagina
 % \newpage
+\enter
 \section{Especificación}
 
 \subsection{posicionesMasOscuras}
-\enter \textbf{problema posicionesMasOscuras} ($im:Imagen$) = $result : [\langle\mathbb{Z},\mathbb{Z}\rangle]$ \{\enter
+\entermini \textbf{problema posicionesMasOscuras} ($im:Imagen$) = $result : [\langle\mathbb{Z},\mathbb{Z}\rangle]$ \{\enter
 \asegura{}{mismos (result, [(i,j)| i \leftarrow [0..ancho(im)), j \leftarrow [0..alto (im)), \ esMinimo(sumaColor (color (im,i,j)), im)])}
 \tab\aux{sumaColor}(p:Pixel):$\mathbb{Z}$ = red(p)+green(p)+blue(p);\\
 \tab\aux{esMinimo}(s : $\mathbb{Z}$, im : Imagen) : Bool = $(\forall i \leftarrow [0..ancho(im)), \forall j \leftarrow [0..alto (im))) \ s \leq sumaColor(color (im,i,j));$
@@ -83,7 +85,7 @@
 \}
 
 \subsection{top10}
-\enter \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
+\entermini \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
 \asegura{}{0 \leq |result| \leq 10}
 \asegura{}{|imagenes(g)| \leq 10 \implies mismos(result, imagenes(g))}
 \asegura{}{(\forall h \leftarrow result) h\in imagenes(g) \land esTop10(h,g)}
@@ -93,7 +95,7 @@
 \}
 
 \subsection{laMasChiquitaConPuntoBlanco}
-\enter \textbf{problema laMasChiquitaConPuntoBlanco} $(g:Galeria)$= $result:Imagen$ \{\enter
+\entermini \textbf{problema laMasChiquitaConPuntoBlanco} $(g:Galeria)$= $result:Imagen$ \{\enter
 \requiere{existeImagenConPuntoBlanco}{(\exists h \leftarrow imagenes(g)) tieneBlanco (h)}
 \asegura{}{tieneBlanco(result)}
 \asegura{esLaMasChica}{(\forall j \leftarrow imagenesConBlanco(g)) ancho(result)*alto(result) \leq ancho(j)*alto(j) }
@@ -103,7 +105,7 @@
 \}
 
 \subsection{agregarImagen}
-\enter \textbf{problema agregarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
+\entermini \textbf{problema agregarImagen} $(g:Galeria,i:Imagen)$ \{ \enter
 \requiere{}{i\notin imagenes(g)}
 \modifica{g}
 \asegura{agregaImagen}{mismos (imagenes(g),imagenes(pre(g))++[i])}
@@ -112,7 +114,7 @@
 \}
 
 \subsection{votar}
-\enter \textbf{problema votar} $(g:Galeria,i:Imagen)$ \{ \enter
+\entermini \textbf{problema votar} $(g:Galeria,i:Imagen)$ \{ \enter
 \requiere{}{i\in imagenes(g)}
 \modifica{g}
 \asegura{noCambiaImagenes}{mismos(imagenes(g),imagenes(pre(g)))}
@@ -121,7 +123,7 @@
 \}
 
 \subsection{eliminarMasVotada}
-\enter \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
+\entermini \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
 \requiere{}{|imagenes(g)| > 0}
 \modifica{g}
 \asegura{eliminaUnaImagen}{|imagenes (pre(g))| == |imagenes(g)|+1}
@@ -132,9 +134,11 @@
 
 
 
+\newpage
 \section{Implementacion}
 \renewcommand\lstlistingname{Código fuente}
 \renewcommand\lstlistlistingname{Códigos fuente}
+
 
 \definecolor{darkgreen}{RGB}{0,100,0}
 \definecolor{darkblue}{RGB}{0,0,127}
@@ -151,26 +155,25 @@
         identifierstyle=\color{black},
         numberstyle=\tiny\color{grey}, 
 }
-%\lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
-%\lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
-%\lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
-%\lstinputlisting[caption=main.cpp]{../src/main.cpp}
+\lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
+\lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
+\lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
+\lstinputlisting[caption=main.cpp]{../src/main.cpp}
 
-
+\newpage
 \section{Demostraciones}
 \small
 \definecolor{cmntcolor}{RGB}{125,0,125}
 \newcommand{\comment}[1]{\textcolor{cmntcolor}{\scriptsize{#1}}}
 
-\subsection{Invariante de Representación}
+\subsection{Invariante de Representación y función de abstracción}
 \enter
 InvRep (imp: ClaseGaleriaImagen):\\
 \indent$|imp.imagenes| ==  |imp.votos| \ \land$ \\
 \indent$(\forall v \leftarrow imp.votos)\ v \geq 0 \ \land$ \\
 \indent$(\forall i,j \leftarrow [0..|imp.imagenes|, i \neq j)\  imp.imagenes[i] \neq imp.imagenes[j]\ \land$ \\
-\indent$(\forall i \leftarrow [0..|imp.votos|-1))\ votos[i+1] \geq votos[i]$ \\
-
-\subsection{Función de Abstracción}
+\indent$(\forall i \leftarrow [0..|imp.votos|-1))\ imp.votos[i+1] \geq imp.votos[i]$ \\
+\enter
 \enter
 abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent$mismos(imagenes(esp),imp.imagenes) \ \land$ \\
@@ -183,7 +186,7 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 
 //estado 1; \\
 \indent//vale $InvRep(this);$ \\
-\indent//implica $abs(this, pre(g);$ \\
+\indent//implica $abs(this, pre(g));$ \\
 \indent//vale $|this.imagenes|>0;$ \\
 \indent//vale $this == pre(this);$\\
 
@@ -228,7 +231,7 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \enter
 \indent //vale $InvRep(this);$ \\
 \indent //implica $abs(this, g);$ \\\enter
-\indent //Ahora queremos ver que valen los aseguras del problema\\
+\indent //Ahora queremos ver que valen los aseguras del problema\footnote{De aquí en adelante,  $sinrepetidos$($xs : [T]$) : Bool = $(\forall i,j \leftarrow [0..|xs|), i \neq j)\  xs[i] \neq xs[j]$}\\
 \indent //(1);\\
 \indent //vale $mismos(this.imagenes, imagenes(g));$ \comment{por abs(this, g)} \\
 \indent //vale $mismos(pre(this).imagenes, imagenes(g));$ \comment{por abs(pre(this), pre(g))} \\
@@ -236,16 +239,37 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent //vale $|pre(this).imagenes| == |this.imagenes|+1;$ \comment{por transformacion de estados y propiedades de longitud, justificado antes}\\
 \indent //implica $|imagenes(g)|+1 == |imagenes(pre(g))|;$ \comment{por las dos proposiciones anteriores}\\
 
-\indent //2;\\ 
-\indent //vale $|imagenes(g)| == |imagenes(pre(g)| - 1 \land |votos(g)| == |votos(pre(g))| - 1;$\\
-\indent //vale $(\forall i \leftarrow [0..|imagenes|-1) imagenes[i] == imagenes@1[i]  \land (\forall i \leftarrow [0..|votos|-1) votos[i] == votos@1[i];$\\
-\indent //implica $ imagenes(pre(g)) == imagenes(g) ++ imagenes(pre(g))[imagenes(pre(g))-1] \land votos(pre(g)) == votos(g) ++ votos(pre(g))[];$ (por mismos entre g y this)\\
-\indent //vale $(\forall i \leftarrow [0..|votos@1|-1)) votos@1[i+1] \geq votos@1[i] ;$\\
-\indent //vale $(\forall i \leftarrow [0..|votos|-1)) votos[i+1] \geq votos[i];$\\
-\indent //implica $(\forall i \leftarrow [0..|votos|-1)) votos@1[|votos@1-1|] \geq votos[i];$\\
-\indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \neq imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$\\
 
-\indent //3;
+\indent // (2);\\
+\indent //vale $pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1]; $ \comment{por poscondicion de pop\_back dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$ }\\
+\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1];$ \comment{por poscondicion de pop\_back, por la justificacion de antes}\\
+\indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this))}\\
+\indent //vale $(\forall i \leftarrow [0..|pre(this).votos|-1)) pre(this).votos[i+1] \geq pre(this)votos[i] ;$ \comment{por invRep(pre(this))}\\
+\indent //vale $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i] ;$ \comment{por invRep(this)} \\
+\indent //implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[|pre(this).votos-1|] \geq this.votos[i];$ \comment{ya que this.votos esta contenido en pre(this).votos y por invRep(pre(this)) e invRep(this) ambas estan ordenadas en forma creciente}\\
+\indent //implica $ pre(this).imagenes[|pre(this).imagenes-1|] \notin this.imagenes \land\\
+  \indent\indent(\forall h \leftarrow pre(this).imagenes, h \neq pre(this).imagenes[|pre(this).imagenes-1|] ) h \in this.imagenes $ \comment{primera mitad de la conjuncion por sinrepetidos y el segundo vale y la segunda mitad por el segundo vale}\\
+\indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
+  \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) ya que se cumple al principio y abs(this, g) ya que se demostro previamente que valia el invariante de representacion al final}\\
+\indent //vale $ mismos(pre(this).imagenes,imagenes(pre(g))) \land mismos(this.imagenes,imagenes(g));$ \comment{por abs(pre(this), pre(g)) ya que se cumple el invariante al inicio de la ejecucion}\\
+\indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[imagenes(pre(g))-1]) \land\\
+  \indent\indent mismos(votos(pre(g)),votos(g) ++ votos(pre(g))[votos(pre(g))-1]);$ \comment{por abs(pre(this), pre(g)) , abs(this, g) y los primeros dos vale}\\
+\indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$ \comment{si no pertenece a imagenes(g) entonces es el que tiene mas votos, se deduce de los primeros dos implica y de abs(pre(this), pre(g)) y abs(this, g), ya que las imagenes de g y this (y pre(g) y pre(this)) son mismos y comparten los votos}
+\enter
 
+\indent //(3);\\
+\indent // vale $pre(this).votos ==  this.votos ++ pre(this).votos[|votos.pre(this)|-1]; $ \comment{por poscondicion de pop\_back, dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$}\\
+\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|imagenes.pre(this)|-1];$ \comment{poscondicion de pop\_back, porque se cumplen los requieres por la misma razon de arriba}\\
+\indent // vale $sinrepetidos(this.imagenes);$ \comment{por invRep(this)}\\
+\indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this)) y predicado anterior}\\
+\indent // implica $ pre(this).imagenes[|pre(this)|-1] \notin this.imagenes \land (\forall h \leftarrow this.imagenes) h \in pre(this).imagenes; $ \comment{por segundo y tercer vale}\\
+\indent // implica $(\forall j \leftarrow [0..|this.imagenes|)) this.imagenes[j] ==  pre(this).imagenes[j] \land\\
+  \indent\indent (\forall j \leftarrow [0..|this.votos|)) this.votos[j] ==  pre(this).votos[j]$ \comment{primer y segundo vale}\\
+\indent // implica $(\forall h \leftarrow this.imagenes, h \in pre(this).imagenes) pre(this).votos(h) ==  this.votos(h);$ \comment{por los 2 implica, los vectores de imagenes y votos de this y pre(this) estan ordenados igual y sin repetidos, entonces para todas las imagenes de this.imagenes compartiran los votos}\\
+\indent //vale $ mismos(pre(this).imagenes,imagenes(pre(g))) \land mismos(this.imagenes,imagenes(g));$ \comment{por abs(pre(this), pre(g)) y abs(this, g)}\\
+\indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[|imagenes(pre(g))|-1]);$\\
+\indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
+  \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) y abs(this, g)} \\
+\indent // implica $(\forall h \leftarrow imagenes(g), h \in imagenes(pre(g))) votos(pre(g),h) ==  votos(g,h);$ \comment{partiendo del implica numero 2 y usando el implica 4 y el anterior vale llegamos a esto, ya que, por el implica 4 todas las imagenes de g van a estar contenidas en pre(g) y por el vale anterior sus votos seran iguales para cada imagen de g} \\ %\comment{como mismos(imagenes(g), this.imagenes) van a pertenecer a pre(g) que es mismos con pre(this) y por la segunda parte de abs sus votos seran iguales para cada imagen de g}\\
 \end{document}
 
