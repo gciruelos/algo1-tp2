@@ -85,14 +85,16 @@
 \}
 
 \subsection{top10}
-\entermini \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
+\entermini \textbf{problema top10} ($g:Galeria$)=$result : [Imagen]$ \ {\enter
 \asegura{}{0 \leq |result| \leq 10}
 \asegura{}{|imagenes(g)| \leq 10 \implies mismos(result, imagenes(g))}
 \asegura{}{|imagenes(g)| > 10 \implies |result| == 10}
-\asegura{}{(\forall h \leftarrow result) h\in imagenes(g) \land esTop10(h,g)}
+\asegura{}{(\forall h \leftarrow result) h\in imagenes(g)}
+\asegura{}{|imagenes(g)| >10 \implies [votos(g, i) | i \leftarrow result] == ordenarDecr([votos(g, i) | i \leftarrow imagenes(g)])[0..10)}
 \asegura{}{ordenadaDecreciente([votos(g,result_i)|i\leftarrow[0..|result|)])}
-\tab\aux{esTop10} $(h : Imagen, g : Galeria) : Bool$ = $|[ im | im \leftarrow imagenes(g), votos(g, im) < votos(g,h) ]| < 10;$ \\
 \tab\aux{ordenadaDecreciente}$(l:[\mathbb{Z}]): Bool$ = $(\forall i,j \leftarrow [0..|l|), i\geq j)l_j \geq l_i;$\\
+\tab\aux{ordenarDecr}$(l:[\mathbb{Z}]) : [\mathbb{Z}] $ = $[x\ |\ n \leftarrow [0..|l|], x \leftarrow l, cantidadMenores(l, x) == n];$ \\
+\tab\aux{cantidadMenores}$(l:[\mathbb{Z}], x : \mathbb{Z}) : \mathbb{Z} $ = $|[y\ |\ y \leftarrow a, y < x]|$; \\
 \}
 
 \subsection{laMasChiquitaConPuntoBlanco}
