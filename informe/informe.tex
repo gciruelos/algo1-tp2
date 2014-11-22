@@ -45,7 +45,7 @@
 %\subtitulo{}
 \grupo{Grupo: 1}
 
-\integrante{Ciruelos Rodríguez, Gonzalo}{063/14}{gciruelos@dc.uba.ar}
+\integrante{Ciruelos Rodríguez, Gonzalo}{063/14}{gonzalo.ciruelos@gmail.com}
 \integrante{Gatti, Mathias}{477/14}{mathigatti@gmail.com}
 \integrante{Rabinowicz, Lucía}{105/14}{lu.rabinowicz@gmail.com}
 \integrante{Weber, Andres}{923/13}{herr.andyweber@gmail.com}
@@ -61,7 +61,7 @@
 \section{Observaciones}
 
 	\begin{enumerate}
-		\item Dado que en el ejercicio de la demostracion nos era dificultoso implicar los aseguras del problema, los docentes nos sugierieron cambiar la especificacion de pop\_back por una mas fuerte, que es la que sigue:
+		\item Dado que en el ejercicio de la demostracion nos era dificultoso implicar los aseguras del problema, los docentes nos sugirieron cambiar la especificacion de pop\_back por una mas fuerte, que es la que sigue:
 \enter \textbf{problema pop\_back} $(a:[T])$ \{ \enter
 \requiere{}{|a| > 0}
 \modifica{a}
@@ -88,6 +88,7 @@
 \entermini \textbf{problema top10} ($g:Galeria$)=result:$[Imagen]$ \ {\enter
 \asegura{}{0 \leq |result| \leq 10}
 \asegura{}{|imagenes(g)| \leq 10 \implies mismos(result, imagenes(g))}
+\asegura{}{|imagenes(g)| > 10 \implies |result| == 10}
 \asegura{}{(\forall h \leftarrow result) h\in imagenes(g) \land esTop10(h,g)}
 \asegura{}{ordenadaDecreciente([votos(g,result_i)|i\leftarrow[0..|result|)])}
 \tab\aux{esTop10} $(h : Imagen, g : Galeria) : Bool$ = $|[ im | im \leftarrow imagenes(g), votos(g, im) < votos(g,h) ]| < 10;$ \\
@@ -126,10 +127,12 @@
 \entermini \textbf{problema eliminarMasVotada} $(g:Galeria)$ \{ \enter
 \requiere{}{|imagenes(g)| > 0}
 \modifica{g}
-\asegura{eliminaUnaImagen}{|imagenes (pre(g))| == |imagenes(g)|+1}
+%\asegura{eliminaUnaImagen}{|imagenes (pre(g))| == |imagenes(g)|+1}
+\asegura{eliminaUnaImagen}{|[h | h \leftarrow imagenes(pre(g)), h \notin imagenes(g)]| ==  1}
+\asegura{eliminaUnaYNoPoneNadaMas\footnote{Notese que estos dos asegura implican que imagenes(g) es sublista de imagenes(pre(g)), dado que no tienen repetidos}}{|imagenes (pre(g))| ==   |imagenes(g)|+1}
 \asegura{eliminaLaMasVotada}{(\forall h \leftarrow imagenes(pre(g))) \\
 \indent \indent h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g), h) \geq votos(pre(g), j)}
-\asegura{noCambiaVotos}{(\forall h \leftarrow imagenes(g) , h \in imagenes(pre(g))) votos(pre(g), h) == votos(g, h)}
+\asegura{noCambiaVotos}{(\forall h \leftarrow imagenes(g))\  votos(pre(g), h) == votos(g, h)}
 \}
 
 
@@ -142,7 +145,7 @@
 
 \definecolor{darkgreen}{RGB}{0,100,0}
 \definecolor{darkblue}{RGB}{0,0,127}
-\definecolor{orange}{RGB}{255,69,0}
+\definecolor{orange}{RGB}{200,40,0}
 \definecolor{grey}{RGB}{63,63,63}
 \lstset{language=C++,
         basicstyle=\ttfamily\footnotesize,
@@ -155,6 +158,7 @@
         identifierstyle=\color{black},
         numberstyle=\tiny\color{grey}, 
 }
+Los headers (archivos .h) no fueron modificados con respecto a los originales, así que no los adjuntamos aquí.
 \lstinputlisting[caption=pixel.cpp]{../src/pixel.cpp}
 \lstinputlisting[caption=imagen.cpp]{../src/imagen.cpp}
 \lstinputlisting[caption={galeria\_imagenes.cpp}]{\detokenize{../src/galeria_imagenes.cpp}}
@@ -163,7 +167,7 @@
 \newpage
 \section{Demostraciones}
 \small
-\definecolor{cmntcolor}{RGB}{125,0,125}
+\definecolor{cmntcolor}{RGB}{60,0,60}
 \newcommand{\comment}[1]{\textcolor{cmntcolor}{\scriptsize{#1}}}
 
 \subsection{Invariante de Representación y función de abstracción}
@@ -194,13 +198,13 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 
 //estado 2; \\
 \indent //vale $this@1.imagenes == this.imagenes ++ [this@1.imagenes[|this@1.imagenes|-1]];$ \comment{pues se cumplen los requieres de pop\_back, dado que $|this@1.imagenes|>0$}\\
-\indent//vale $votos == votos@1;$ \\
+\indent//vale $this.votos == this@1.votos;$ \\
 
 \textbf{\textcolor{darkgreen}{votos . pop\_back ();}}\\
 
 //estado 3; \\
 \indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \comment{pues se cumplen los requieres de pop\_back, dado que $|this@1.votos ==  |this@1.imagenes|$ por $invRep(this@1)$ y a su vez $|this@1.imagenes|>0$}\\
-\indent//vale $imagenes == imagenes@2;$ \\
+\indent//vale $this.imagenes == this@2.imagenes;$ \\
 
 \noindent
 \textbf{\textcolor{darkgreen}{\}}}
@@ -208,7 +212,7 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 
 //Queremos ver que vale InvRep(this);\\
 \indent  // (1); \\
-\indent //vale $imagenes == imagenes@2 \land \ this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
+\indent //vale $this.imagenes == this@2.imagenes \land \ this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
 \indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]]\  \land \ \\
 \indent\indent pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$   \comment{por las dos proposiciones anteriores y transformacion de estados} \\
 \indent //implica $|pre(this).imagenes| == |this.imagenes| +1 \land \ |pre(this).votos| == |this.votos| +1;$ \comment{por propiedad de longitud} \\
@@ -233,6 +237,14 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent //implica $abs(this, g);$ \\\enter
 \indent //Ahora queremos ver que valen los aseguras del problema\footnote{De aquí en adelante,  $sinrepetidos$($xs : [T]$) : Bool = $(\forall i,j \leftarrow [0..|xs|), i \neq j)\  xs[i] \neq xs[j]$}\\
 \indent //(1);\\
+\indent //vale $this.imagenes == this@2.imagenes$; \comment{por transformacion de estados}\\
+\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]];$ \comment{por pop\_back, justificado en la transformacion de estados}\\
+\indent //implica $|[h | h \leftarrow pre(this).imagenes, h \notin this.imagenes]| == 1$; \comment{pues ese elemento que no está es el ultimo, como se ve claramente en la proposicion anterior, y porque las listas no tienen repetidos, dado que vale invRep(this) e invRep(pre(this))}\\
+\indent //vale $mismos(pre(this).imagenes, imagenes(pre(g)))$; \comment{por abs(pre(this), pre(g))}\\
+\indent //vale $mismos(this.imagenes, imagenes(g))$; \comment{por abs(this, g)} \\
+\indent // implica $|[h | h \leftarrow imagenes(pre(g)), h \notin imagenes(g)]| ==  1$; \comment{pues usamos los dos ultimos vales ya que iterar sobre listas que son mismos es lo mismo}\\
+
+\indent //(2);\\
 \indent //vale $mismos(this.imagenes, imagenes(g));$ \comment{por abs(this, g)} \\
 \indent //vale $mismos(pre(this).imagenes, imagenes(g));$ \comment{por abs(pre(this), pre(g))} \\
 \indent //implica $|imagenes(g)| == |this.imagenes| \land \ |imagenes(pre(g))| == |pre(this).imagenes|;$ \\
@@ -240,7 +252,7 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent //implica $|imagenes(g)|+1 == |imagenes(pre(g))|;$ \comment{por las dos proposiciones anteriores}\\
 
 
-\indent // (2);\\
+\indent // (3);\\
 \indent //vale $pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1]; $ \comment{por poscondicion de pop\_back dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$ }\\
 \indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1];$ \comment{por poscondicion de pop\_back, por la justificacion de antes}\\
 \indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this))}\\
@@ -257,7 +269,7 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$ \comment{si no pertenece a imagenes(g) entonces es el que tiene mas votos, se deduce de los primeros dos implica y de abs(pre(this), pre(g)) y abs(this, g), ya que las imagenes de g y this (y pre(g) y pre(this)) son mismos y comparten los votos}
 \enter
 
-\indent //(3);\\
+\indent //(4);\\
 \indent // vale $pre(this).votos ==  this.votos ++ pre(this).votos[|votos.pre(this)|-1]; $ \comment{por poscondicion de pop\_back, dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$}\\
 \indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|imagenes.pre(this)|-1];$ \comment{poscondicion de pop\_back, porque se cumplen los requieres por la misma razon de arriba}\\
 \indent // vale $sinrepetidos(this.imagenes);$ \comment{por invRep(this)}\\
@@ -265,11 +277,11 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent // implica $ pre(this).imagenes[|pre(this)|-1] \notin this.imagenes \land (\forall h \leftarrow this.imagenes) h \in pre(this).imagenes; $ \comment{por segundo y tercer vale}\\
 \indent // implica $(\forall j \leftarrow [0..|this.imagenes|)) this.imagenes[j] ==  pre(this).imagenes[j] \land\\
   \indent\indent (\forall j \leftarrow [0..|this.votos|)) this.votos[j] ==  pre(this).votos[j]$ \comment{primer y segundo vale}\\
-\indent // implica $(\forall h \leftarrow this.imagenes, h \in pre(this).imagenes) pre(this).votos(h) ==  this.votos(h);$ \comment{por los 2 implica, los vectores de imagenes y votos de this y pre(this) estan ordenados igual y sin repetidos, entonces para todas las imagenes de this.imagenes compartiran los votos}\\
+\indent // implica $(\forall h \leftarrow this.imagenes) pre(this).votos(h) ==  this.votos(h);$ \comment{por los 2 implica, los vectores de imagenes y votos de this y pre(this) estan ordenados igual y sin repetidos, entonces para todas las imagenes de this.imagenes compartiran los votos}\\
 \indent //vale $ mismos(pre(this).imagenes,imagenes(pre(g))) \land mismos(this.imagenes,imagenes(g));$ \comment{por abs(pre(this), pre(g)) y abs(this, g)}\\
 \indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[|imagenes(pre(g))|-1]);$\\
 \indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
   \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) y abs(this, g)} \\
-\indent // implica $(\forall h \leftarrow imagenes(g), h \in imagenes(pre(g))) votos(pre(g),h) ==  votos(g,h);$ \comment{partiendo del implica numero 2 y usando el implica 4 y el anterior vale llegamos a esto, ya que, por el implica 4 todas las imagenes de g van a estar contenidas en pre(g) y por el vale anterior sus votos seran iguales para cada imagen de g} \\ %\comment{como mismos(imagenes(g), this.imagenes) van a pertenecer a pre(g) que es mismos con pre(this) y por la segunda parte de abs sus votos seran iguales para cada imagen de g}\\
+\indent // implica $(\forall h \leftarrow imagenes(g)) votos(pre(g),h) ==  votos(g,h);$ \comment{partiendo del implica numero 3 y usando el implica 4 y el anterior vale llegamos a esto, ya que, por el implica 4 todas las imagenes de g van a estar contenidas en pre(g) y por el vale anterior sus votos seran iguales para cada imagen de g} \\ %\comment{como mismos(imagenes(g), this.imagenes) van a pertenecer a pre(g) que es mismos con pre(this) y por la segunda parte de abs sus votos seran iguales para cada imagen de g}\\
 \end{document}
 

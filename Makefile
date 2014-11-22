@@ -1,5 +1,5 @@
-CC=clang++
-CFLAGS= -O2 -Weverything
+CC=g++
+CFLAGS= -O2 -Wall
 
 tp2: main.o pixel.o imagen.o galeria_imagenes.o
 	$(CC) $(CFLAGS) -Wextra -o tp2 main.o pixel.o imagen.o galeria_imagenes.o
