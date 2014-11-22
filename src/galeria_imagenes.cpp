@@ -194,8 +194,8 @@ void GaleriaImagenes::cargar(std::istream& is) {
     char charMolesto; // parentesis, coma o chorchete
     is >> charMolesto; // '['
 
-    while(charMolesto != ']') {
-        is >> charMolesto; // '('
+    is >> charMolesto; // '(' o ']'
+    while(charMolesto != ']') {  
         im.cargar(is);
 
         is >> charMolesto; // ','
@@ -204,8 +204,9 @@ void GaleriaImagenes::cargar(std::istream& is) {
 
         imagenes_nuevas.push_back(im);
         votos_nuevos.push_back(numero_de_votos);
-
+        
         is >> charMolesto; // ',' o ']' y se termina el ciclo
+        if(charMolesto == ',') is >>charMolesto; // '('
     }
     imagenes = imagenes_nuevas;
     votos = votos_nuevos;

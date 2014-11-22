@@ -199,7 +199,7 @@ vector<pair<int, int> > Imagen::posicionesMasOscuras() const {
             Pixel estePixel = pixels[i][j];
             int colorPixel = estePixel.red() + estePixel.green() + estePixel.blue();
 
-            if (colorPixel < colorMasOscuro) resultado.push_back(make_pair(i, j));
+            if (colorPixel == colorMasOscuro) resultado.push_back(make_pair(i, j));
             j++;
         }
         i++;

@@ -109,6 +109,7 @@ int main() {
             int i = 0;
             while(i < resultado.size()) {
                 cout << "(" << resultado[i].first << "," << resultado[i].second << ")";
+                i++;
             }
             cout << endl;
 
