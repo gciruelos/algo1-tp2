@@ -170,6 +170,7 @@ Los headers (archivos .h) no fueron modificados con respecto a los originales, a
 \section{Demostraciones}
 \small
 \definecolor{cmntcolor}{RGB}{60,0,60}
+\definecolor{notecolor}{RGB}{0, 128, 200}
 \newcommand{\comment}[1]{\textcolor{cmntcolor}{\scriptsize{#1}}}
 
 \subsection{Invariante de Representación y función de abstracción}
@@ -191,10 +192,10 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \textbf{\textcolor{darkgreen}{void GaleriaImagenes :: eliminarMasVotada () \{}} \\
 
 //estado 1; \\
-\indent//vale $InvRep(this);$ \\
-\indent//implica $abs(this, pre(g));$ \\
-\indent//vale $|this.imagenes|>0;$ \\
 \indent//vale $this == pre(this);$\\
+\indent//vale $InvRep(pre(this));$ \comment{pues es metodo publico}\\
+\indent//implica $abs(pre(this), pre(g));$ \\
+\indent//vale $|this.imagenes|>0;$ \comment{pues valen los aseguras del problema}\\
 
 \textbf{\textcolor{darkgreen}{imagenes . pop\_back ();}} \\
 
@@ -272,18 +273,24 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \enter
 
 \indent //(4);\\
-\indent // vale $pre(this).votos ==  this.votos ++ pre(this).votos[|votos.pre(this)|-1]; $ \comment{por poscondicion de pop\_back, dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$}\\
-\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|imagenes.pre(this)|-1];$ \comment{poscondicion de pop\_back, porque se cumplen los requieres por la misma razon de arriba}\\
-\indent // vale $sinrepetidos(this.imagenes);$ \comment{por invRep(this)}\\
+\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \comment{(estado 3)}\\
+\indent //vale $this@1.votos == this.votos ++ [this@1.votos[|this@1.votos|-1]];$ \comment{pues $this@2.votos == this@1.votos$, dado que la primera instruccion no lo modifica}\\
+\indent //vale $pre(this).votos ==  this.votos ++ pre(this).votos[|votos.pre(this)|-1]; $ \comment{pues $this@1 == pre(this)$}\\
+\indent //vale $this.imagenes == this@2.imagenes;$\\
+\indent //vale $this@1.imagenes ==  this.imagenes ++ this@1.imagenes[|this@1.imagenes|-1]; $ \comment{por poscondicion de pop\_back, dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0 (ver estado 2)$}\\
+\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1]; $ \comment{pues $this@1 == pre(this)$}\\
+\indent //\textcolor{notecolor}{por lo tanto, tenemos ${(*)}$}  $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1] \land pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1];$ \\
+\indent //vale $sinrepetidos(this.imagenes);$ \comment{por invRep(this)}\\
 \indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this)) y predicado anterior}\\
-\indent // implica $ pre(this).imagenes[|pre(this)|-1] \notin this.imagenes \land (\forall h \leftarrow this.imagenes) h \in pre(this).imagenes; $ \comment{por segundo y tercer vale}\\
-\indent // implica $(\forall j \leftarrow [0..|this.imagenes|)) this.imagenes[j] ==  pre(this).imagenes[j] \land\\
-  \indent\indent (\forall j \leftarrow [0..|this.votos|)) this.votos[j] ==  pre(this).votos[j]$ \comment{primer y segundo vale}\\
-\indent // implica $(\forall h \leftarrow this.imagenes) pre(this).votos(h) ==  this.votos(h);$ \comment{por los 2 implica, los vectores de imagenes y votos de this y pre(this) estan ordenados igual y sin repetidos, entonces para todas las imagenes de this.imagenes compartiran los votos}\\
+\indent //implica $ pre(this).imagenes[|pre(this)|-1] \notin this.imagenes;$ \comment{por ${(*)}$} \\
+\indent //implica $(\forall h \leftarrow this.imagenes) h \in pre(this).imagenes;$ \comment{pues por ${(*)}$, $this.imagenes$ es sublista}\\
+\indent //implica $(\forall j \leftarrow [0..|this.imagenes|)) this.imagenes[j] ==  pre(this).imagenes[j] \land\\
+\indent\indent\indent\ \ \  (\forall j \leftarrow [0..|this.votos|)) this.votos[j] ==  pre(this).votos[j]$ \comment{por ${(*)}$ dado que estoy diciendo que las listas son las mismas hasta el largo de la mas corta (${(*)}$ dice exactamente eso, es decir, las listas son iguales excepto por el ultimo elemento, que a una le falta)}\\
+\indent //implica $(\forall i \leftarrow [0..|this.imagenes|)) pre(this).votos[i] ==  this.votos[i];$ \comment{por la proposicion anterior, los vectores de imagenes y votos de this y pre(this) estan ordenados igual y sin repetidos, entonces para todas las imagenes de this.imagenes compartiran los votos}\\
 \indent //vale $ mismos(pre(this).imagenes,imagenes(pre(g))) \land mismos(this.imagenes,imagenes(g));$ \comment{por abs(pre(this), pre(g)) y abs(this, g)}\\
-\indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[|imagenes(pre(g))|-1]);$\\
+\indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[|imagenes(pre(g))|-1]);$ \comment{por ${(*)}$, es un simple reemplazo sintactico}\\
 \indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
-  \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) y abs(this, g)} \\
-\indent // implica $(\forall h \leftarrow imagenes(g)) votos(pre(g),h) ==  votos(g,h);$ \comment{partiendo del implica numero 3 y usando el implica 4 y el anterior vale llegamos a esto, ya que, por el implica 4 todas las imagenes de g van a estar contenidas en pre(g) y por el vale anterior sus votos seran iguales para cada imagen de g} \\ %\comment{como mismos(imagenes(g), this.imagenes) van a pertenecer a pre(g) que es mismos con pre(this) y por la segunda parte de abs sus votos seran iguales para cada imagen de g}\\
+\indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) y abs(this, g)} \\
+\indent // implica $(\forall h \leftarrow imagenes(g)) votos(pre(g),h) ==  votos(g,h);$ \comment{por ${(*)}$ todas las imagenes de this van a estar en pre(this), gracias a la anteultima proposicion (mismos\dots) puedo reemplazar $this.imagenes$ por $imagenes(g)$ y por la ultima proposicion sus votos seran iguales para cada imagen de g}\\
 \end{document}
 
