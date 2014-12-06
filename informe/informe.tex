@@ -3,6 +3,7 @@
 % Inclusion de paquetes
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[width=15.5cm, left=3cm, top=2.5cm, right=1cm, left=2cm, height= 24.5cm]{geometry}
@@ -214,72 +215,78 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \enter 
 
 //Queremos ver que vale InvRep(this);\\
-\indent  // (1); \\
-\indent //vale $this.imagenes == this@2.imagenes \land \ this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
-\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]]\  \land \ \\
-\indent\indent pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$   \comment{por las dos proposiciones anteriores y transformacion de estados} \\
-\indent //implica $|pre(this).imagenes| == |this.imagenes| +1 \land \ |pre(this).votos| == |this.votos| +1;$ \comment{por propiedad de longitud} \\
-\indent //implica $|imagenes| == |votos|$ \comment{pues $|pre(this).imagenes| == |pre(this).votos|$ por $InvRep(pre(this))$} \\
+\indent // (1); \\
+\indent\indent // (1.a); \\
+\indent //vale $this.imagenes == this.imagenes@2$ \comment{ultimo estado} \\
+\indent //vale $this.imagenes@1 == this.imagenes@2 ++ [this.imagenes@1[|this.imagenes@1|-1]]$ \comment{vease estado 2 en la transformacion de eesatdos} \\
+\indent //vale $this@1 == pre(this)$ \comment{vease primer estado} \\
+\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]]$\ \comment{por transformacion de estados, llamaremos a esta proposicion \underline{1.a}} \\
+\indent //implica $this.imagenes == pre(this).imagenes[0..|pre(this).imagenes|-1)$ \\
+\indent //implica $|this.imagenes| == |pre(this).imagenes| -1$ \comment{por propiedad de longitud} \\
+\indent\indent // (1.b); \\
+\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \comment{ultimo estado} \\
+\indent //vale $this.votos@2 == this.votos@1$ \comment{vease estado 2 en la transformacion de estados} \\
+\indent //vale $this@1.votos == pre(this).votos$ \comment{primer estado} \\
+\indent //implica $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$ \comment{por transformacion de estados, llamaremos a esta proposicion \underline{1.b}} \\
+\indent //implica $this.votos == pre(this).votos[0..|pre(this).votos|-1)$ \\
+\indent //implica $|this.votos| == |pre(this).votos| -1$ \comment{por propiedad de longitud} \\
+\indent //Ahora que tenemos estas dos partes, facilmente implicamos lo que queremos \\
+\indent //vale $|pre(this).imagenes| == |pre(this).votos|$ \comment{Por InvRep(pre(this))} \\
+\indent //implica $|this.imagenes| -1 == |this.votos| -1 $ \comment{Reemplazando con lo que obtuvimos al final de (1.a) y (1.b)} \\
+\indent //implica $|this.imagenes| == |this.votos|$ \comment{sumando 1 de ambos lados} \enter
 
 \indent // (2); \\
-\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
-\indent //implica $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$  \comment{por transformacion de estados}\\
-\indent //implica $ (\forall v \leftarrow this.votos) v \geq 0;$ \comment{pues es una sublista de $pre(this).votos$ y vale para esta lista por $InvRep(pre(this))$} \\
+\indent //vale $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$ \comment{por 1.b}; \\
+\indent //vale $InvRep(pre(this)) \therefore$ vale $(\forall v \leftarrow pre(this).votos) v \geq 0;$ \\
+\indent //implica $(\forall v \leftarrow this.votos) v \geq 0;$ \comment{porque como $this.votos$ es una sublista de $pre(this).votos$ (por 1.b) lo que vale para $pre(this).votos$ vale para $this.votos$} \enter
 
 \indent // (3); \\
-\indent //vale $this@1.imagenes == this.imagenes ++ [this@1.imagenes[|this@1.imagenes|-1]];$ \\
-\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]];$ \comment{por transformacion de estados}\\
-\indent //implica $(\forall i,j \leftarrow [0..|this.imagenes]) i \neq j) this.imagenes[i] \neq this.imagenes[j];$ \comment{pues es una sublista de $pre(this).imagenes$ y vale para esta lista por $InvRep(pre(this))$}\\
+\indent //vale $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]]$ \comment{por  1.a}; \\
+\indent //vale $InvRep(pre(this))$ , por lo tanto\  $(\forall i,j \leftarrow [0..|this.imagenes]) i \neq j) this.imagenes[i] \neq this.imagenes[j];$ \\
+\indent //implica $(\forall i,j \leftarrow [0..|this.imagenes]) i \neq j) this.imagenes[i] \neq this.imagenes[j];$ \comment{porque como $this.imagenes$ es una sublista de $pre(this).imagenes$ (por 1.a) lo que vale para $pre(this).imagenes$ vale para $this.imagenes$} \enter
 
 \indent // (4); \\
-\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \\
-\indent //implica $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$ \comment{por transformacion de estados}\\
-\indent // implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i];$ \comment{pues this.votos es sublista de $pre(this).votos$, que esta ordenada por $InvRep(pre(this))$}
-\enter
+\indent //vale $pre(this).votos == this.votos ++ [pre(this).votos[|pre(this).votos|-1]];$ \comment{por 1.b}\\
+\indent //vale $InvRep(pre(this))$ \comment{pues es metodo publico, vease el primer estado de la transformacion}\\
+\indent //implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i];$ \comment{pues $this.votos$ es sublista de $pre(this).votos$, que esta ordenada por $InvRep(pre(this))$}\enter
+
 \indent //vale $InvRep(this);$ \\
-\indent //implica $abs(this, g);$ \\\enter
+\indent //implica $abs(this, g);$ \enter
+
 \indent //Ahora queremos ver que valen los aseguras del problema\footnote{De aquí en adelante,  $sinrepetidos$($xs : [T]$) : Bool = $(\forall i,j \leftarrow [0..|xs|), i \neq j)\  xs[i] \neq xs[j]$}\\
 \indent //(1);\\
-\indent //vale $this.imagenes == this@2.imagenes$; \comment{por transformacion de estados}\\
-\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]];$ \comment{por pop\_back, justificado en la transformacion de estados}\\
+\indent //implica $pre(this).imagenes == this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]];$ \comment{por 1.a.}\\
 \indent //implica $|[h | h \leftarrow pre(this).imagenes, h \notin this.imagenes]| == 1$; \comment{pues ese elemento que no está es el ultimo, como se ve claramente en la proposicion anterior, y porque las listas no tienen repetidos, dado que vale invRep(this) e invRep(pre(this))}\\
-\indent //vale $mismos(pre(this).imagenes, imagenes(pre(g)))$; \comment{por abs(pre(this), pre(g))}\\
+\indent //vale $mismos(pre(this).imagenes, imagenes(pre(g)))$; \comment{por abs(pre(this), pre(g)), pues vale invRep(this) al principio pues es metodo publico (vease primer estado)}\\
 \indent //vale $mismos(this.imagenes, imagenes(g))$; \comment{por abs(this, g)} \\
-\indent // implica $|[h | h \leftarrow imagenes(pre(g)), h \notin imagenes(g)]| ==  1$; \comment{pues usamos los dos ultimos vales ya que iterar sobre listas que son mismos es lo mismo}\\
+\indent //implica $|[h | h \leftarrow imagenes(pre(g)), h \notin imagenes(g)]| ==  1$; \comment{pues usamos los dos ultimos vales ya que iterar sobre listas que son mismos es lo mismo}\enter
+
 
 \indent //(2);\\
-\indent //vale $mismos(this.imagenes, imagenes(g));$ \comment{por abs(this, g)} \\
-\indent //vale $mismos(pre(this).imagenes, imagenes(g));$ \comment{por abs(pre(this), pre(g))} \\
-\indent //implica $|imagenes(g)| == |this.imagenes| \land \ |imagenes(pre(g))| == |pre(this).imagenes|;$ \\
-\indent //vale $|pre(this).imagenes| == |this.imagenes|+1;$ \comment{por transformacion de estados y propiedades de longitud, justificado antes}\\
-\indent //implica $|imagenes(g)|+1 == |imagenes(pre(g))|;$ \comment{por las dos proposiciones anteriores}\\
+\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1]; $ \comment{por 1.a}\\
+\indent //implica $ |this.imagenes| + 1 == |pre(this).imagenes|;$ \comment {por la proposicion anterior, dado que una lista compuesta por un elemento más tiene una longitud de uno más}\enter
 
-
-\indent // (3);\\
-\indent //vale $pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1]; $ \comment{por poscondicion de pop\_back dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0$ }\\
-\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1];$ \comment{por poscondicion de pop\_back, por la justificacion de antes}\\
-\indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this))}\\
-\indent //vale $(\forall i \leftarrow [0..|pre(this).votos|-1)) pre(this).votos[i+1] \geq pre(this)votos[i] ;$ \comment{por invRep(pre(this))}\\
-\indent //vale $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i] ;$ \comment{por invRep(this)} \\
-\indent //implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[|pre(this).votos-1|] \geq this.votos[i];$ \comment{ya que this.votos esta contenido en pre(this).votos y por invRep(pre(this)) e invRep(this) ambas estan ordenadas en forma creciente}\\
-\indent //implica $ pre(this).imagenes[|pre(this).imagenes-1|] \notin this.imagenes \land\\
-  \indent\indent(\forall h \leftarrow pre(this).imagenes, h \neq pre(this).imagenes[|pre(this).imagenes-1|] ) h \in this.imagenes $ \comment{primera mitad de la conjuncion por sinrepetidos y el segundo vale y la segunda mitad por el segundo vale}\\
-\indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
-  \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) ya que se cumple al principio y abs(this, g) ya que se demostro previamente que valia el invariante de representacion al final}\\
-\indent //vale $ mismos(pre(this).imagenes,imagenes(pre(g))) \land mismos(this.imagenes,imagenes(g));$ \comment{por abs(pre(this), pre(g)) ya que se cumple el invariante al inicio de la ejecucion}\\
-\indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[imagenes(pre(g))-1]) \land\\
-  \indent\indent mismos(votos(pre(g)),votos(g) ++ votos(pre(g))[votos(pre(g))-1]);$ \comment{por abs(pre(this), pre(g)) , abs(this, g) y los primeros dos vale}\\
-\indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$ \comment{si no pertenece a imagenes(g) entonces es el que tiene mas votos, se deduce de los primeros dos implica y de abs(pre(this), pre(g)) y abs(this, g), ya que las imagenes de g y this (y pre(g) y pre(this)) son mismos y comparten los votos}
-\enter
+\indent //(3);\\
+\indent //Primero veremos que la imagen que mas votos tiene es la ultima\\
+\indent //implica $ this.votos ++ [pre(this).votos[|pre(this).votos|-1]] == pre(this).votos; $ \comment{por 1.b, de nuevo; notese que esto implica que this.votos esta contenido en pre(this).votos, ya que tienen los mismos elementos menos uno extra que esta en pre(this).votos}\\
+\indent //vale $(\forall i \leftarrow [0..|pre(this).votos|-1)) pre(this).votos[i+1] \geq pre(this)votos[i] ;$ \comment{por invRep(pre(this)) la lista esta ordenada crecientemente}\\
+\indent //implica $(\forall i \leftarrow [0..|this.votos|-1)) this.votos[i+1] \geq this.votos[i] ;$ \comment{por invRep(this) la lista esta ordenada crecientemente} \\ 
+\indent //implica $(\forall v \leftarrow this.votos)\ this.votos[|this.votos]-1] \geq v$ \comment{pues como esta ordenada, el ultimo es mayor o igual que todo el resto, llamaremos a esto \underline{3.a}}\\
+\indent //Ahora veremos que la unica imagen que falta es la ultima\\
+\indent //vale $ this.imagenes ++ [pre(this).imagenes[|pre(this).imagenes|-1]] == pre(this).imagenes; $ \comment{nuevamente, por 1.a}\\
+\indent //implica $ pre(this).imagenes[|pre(this).imagenes-1|] \notin this.imagenes  $ \comment{ya que vale sinrepetidos(pre(this).imagenes) (por InvRep(pre(this)), pues es metodo publico), si this.imagenes contuviera a pre(this).imagenes[|pre(this).imagenes-1|] entonces pre(this.imagenes) tendria dos y no valdría sin repetidos}\\
+\indent //implica $(\forall h \leftarrow pre(this).imagenes, h \neq pre(this).imagenes[|pre(this).imagenes|-1|] ) h \in this.imagenes $ \comment{vale
+1.a o sea que this.imagenes mas una imagen extra es igual a el vector de imagenes pre(this.imagenes), si quitamos esa imagen (la cual hemos visto que no esta en this.imagenes) entonces ambos tienen los mismos elementos, llamaremos a esto \underline{3.b}}\\
+\indent //Ahora queremos que ver que la ultima es la que tiene mas votos\\
+\indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|)\ votos(pre(g), pre(this).imagenes[i]) == pre(this).votos[i]$ \comment{por abs(pre(this), pre(g))}\\
+\indent //implica $(\forall j \leftarrow pre(this).imagenes)\ votos(pre(g), pre(this).imagenes[|pre(this).imagenes|-1]) \geq votos(pre(g), j)$ \comment{pues por 3.b y la ultima proposicion, la imagen que tiene mas votos es la ultima}\\
+\indent //Con esto ya casi estamos, falta ligar las variables de la implementacion y de la especificacion\\
+\indent //vale $mismos(imagenes(pre(g)), pre(this).imagenes) \ \land \ mismos(imagenes(g), this.imagenes)$ \comment{por abs(pre(g), pre(this)) y por abs(g, this) respectivamente}\\
+\indent //implica $(\forall j \leftarrow imagenes(pre(g)))\ votos(pre(g), pre(this).imagenes[|pre(this).imagenes|-1]) \geq votos(pre(g), j)$ \comment{(usamos la anteultima proposicion) pues iterar sobre dos listas que son mismos es lo mismo}\\
+\indent //implica $(\forall h \leftarrow imagenes(pre(g))) h \notin imagenes(g) \implies (\forall j \leftarrow imagenes(pre(g))) votos(pre(g),h) \geq votos(pre(g),j);$\comment{simplemente llamandole h a la ultima imagen (notese que es la unica que va a ser filtrada, porque es la unica que falta, como vimos en 3.b y gracias a abs(g, this), podemos ligar imagenes(g) con this.imagenes)}\enter
 
 \indent //(4);\\
-\indent //vale $this@2.votos == this.votos ++ [this@2.votos[|this@2.votos|-1]];$ \comment{(estado 3)}\\
-\indent //vale $this@1.votos == this.votos ++ [this@1.votos[|this@1.votos|-1]];$ \comment{pues $this@2.votos == this@1.votos$, dado que la primera instruccion no lo modifica}\\
-\indent //vale $pre(this).votos ==  this.votos ++ pre(this).votos[|votos.pre(this)|-1]; $ \comment{pues $this@1 == pre(this)$}\\
-\indent //vale $this.imagenes == this@2.imagenes;$\\
-\indent //vale $this@1.imagenes ==  this.imagenes ++ this@1.imagenes[|this@1.imagenes|-1]; $ \comment{por poscondicion de pop\_back, dado que se cumplen los requieres por los requieres de eliminarMasVotada ya que $|pre(this).votos| == |pre(this).imagenes| > 0 (ver estado 2)$}\\
-\indent //vale $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1]; $ \comment{pues $this@1 == pre(this)$}\\
-\indent //\textcolor{notecolor}{por lo tanto, tenemos ${(*)}$}  $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1] \land pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1];$ \\
+\indent //\underline{Llamaremos ${(*)}$ a 1.a $\land$ 1.b, es decir}  $pre(this).imagenes ==  this.imagenes ++ pre(this).imagenes[|pre(this).imagenes|-1] \land pre(this).votos ==  this.votos ++ pre(this).votos[|pre(this).votos|-1];$ \\
 \indent //vale $sinrepetidos(this.imagenes);$ \comment{por invRep(this)}\\
 \indent //vale $sinrepetidos(this.imagenes) \land sinrepetidos(pre(this).imagenes);$ \comment{por invRep(pre(this)) y predicado anterior}\\
 \indent //implica $ pre(this).imagenes[|pre(this)|-1] \notin this.imagenes;$ \comment{por ${(*)}$} \\
@@ -291,6 +298,6 @@ abs (imp: ClaseGaleriaImagen, esp: Galeria):\\
 \indent //implica $mismos(imagenes(pre(g)),imagenes(g) ++ imagenes(pre(g))[|imagenes(pre(g))|-1]);$ \comment{por ${(*)}$, es un simple reemplazo sintactico}\\
 \indent //vale $(\forall i \leftarrow [0..|pre(this).imagenes|))votos(pre(g),pre(this).imagenes[i]) ==  pre(this).votos[i] \land\\
 \indent\indent(\forall i \leftarrow [0..|this.imagenes|))votos(g,this.imagenes[i]) ==  this.votos[i]; $ \comment{por abs(pre(this), pre(g)) y abs(this, g)} \\
-\indent // implica $(\forall h \leftarrow imagenes(g)) votos(pre(g),h) ==  votos(g,h);$ \comment{por ${(*)}$ todas las imagenes de this van a estar en pre(this), gracias a la anteultima proposicion (mismos\dots) puedo reemplazar $this.imagenes$ por $imagenes(g)$ y por la ultima proposicion sus votos seran iguales para cada imagen de g}\\
+\indent //implica $(\forall h \leftarrow imagenes(g)) votos(pre(g),h) ==  votos(g,h);$ \comment{por ${(*)}$ todas las imagenes de this van a estar en pre(this), gracias a la antepenultima proposicion ($mismos(this.imagenes, imagenes(g))$) puedo reemplazar $this.imagenes$ por $imagenes(g)$ y por la ultima proposicion sus votos seran iguales para cada imagen de g}\\
 \end{document}
 
